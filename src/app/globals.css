@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-rice text-ink font-body antialiased;
+    overflow-x: hidden;
+    min-width: 320px;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern" 1, "liga" 1;
+  }
+  /* Bengali text readability standard: minimum 18px body font on mobile & desktop */
+  [lang="bn"] body {
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  /* Prevent 300ms tap delay on mobile devices */
+  button, a, input, select, textarea {
+    touch-action: manipulation;
+  }
+}
+
+@layer components {
+  .section-rice {
+    @apply bg-rice;
+  }
+  .section-rice-2 {
+    @apply bg-rice-2;
+  }
+  .section-maroon {
+    @apply bg-maroon text-rice;
+  }
+  .heading-display {
+    @apply font-display text-sindoor;
+  }
+  .heading-display-bn {
+    @apply font-display-bn text-sindoor;
+  }
+}
+
+/* Kantha stitch pattern - running dashed border */
+.kantha-border {
+  border: 2px dashed theme('colors.terracotta');
+  border-radius: 2px;
+}
+
+/* Focus visible styles for accessibility */
+:focus-visible {
+  outline: 3px solid theme('colors.haldi');
+  outline-offset: 2px;
+}
+
+/* Smooth scroll disabled for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Lenis styles */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}

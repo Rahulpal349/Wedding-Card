@@ -1,0 +1,122 @@
+{
+  "nav": {
+    "welcome": "আমাদের আমন্ত্রণ",
+    "couple": "আমাদের দু'জন",
+    "details": "বিবাহের শুভদিন",
+    "blessings": "পারিবারিক আশীর্বাদ",
+    "events": "অনুষ্ঠানের পর্বসমূহ",
+    "venue": "অনুষ্ঠান স্থল",
+    "story": "আমাদের গল্প",
+    "gallery": "মধুর স্মৃতি",
+    "closing": "আশীর্বাদ ও বিদায়",
+    "menu": "মেনু"
+  },
+  "gate": {
+    "title": "শুভ বিবাহ",
+    "subtitle": "The Wedding of",
+    "openButton": "আমন্ত্রণপত্র উন্মোচন করুন",
+    "loading": "প্রস্তুত হচ্ছে..."
+  },
+  "hero": {
+    "welcomeTitle": "আমাদের বিবাহে আপনাকে সাদর আমন্ত্রণ",
+    "welcomeSubtitle": "We are delighted to invite you to the wedding of",
+    "weddingOf": "এর শুভ বিবাহ",
+    "and": "ও",
+    "saveTheDate": "তারিখ মনে রাখুন",
+    "scrollDown": "নিচে দেখুন"
+  },
+  "theCouple": {
+    "title": "আমাদের দু'জন",
+    "subtitle": "The Couple",
+    "brideRole": "কনে",
+    "groomRole": "বর",
+    "quote": "দুটি পরিবার, এক আনন্দ। ঝিলিক ও কৌশিকের নতুন পথচলায় আপনাদের আশীর্বাদ কামনা করি।"
+  },
+  "weddingDetails": {
+    "title": "বিবাহের শুভদিন",
+    "subtitle": "Wedding Details",
+    "dateTitle": "বিবাহের দিন",
+    "dateValue": "বুধবার, ২৫ নভেম্বর ২০২৬",
+    "dateSub": "Wedding / Wednesday, 25 November 2026",
+    "ceremonyTitle": "বিবাহ অনুষ্ঠান",
+    "ceremonySub": "Wedding Ceremony",
+    "venueTitle": "অনুষ্ঠান স্থল",
+    "venueSub": "Venue"
+  },
+  "countdown": {
+    "days": "দিন",
+    "hours": "ঘণ্টা",
+    "minutes": "মিনিট",
+    "seconds": "সেকেন্ড",
+    "weddingDay": "আজকের এই শুভ দিনে শুভ বিবাহ!",
+    "archived": "আমাদের শুভ বিবাহ সম্পন্ন হয়েছে। আপনাদের আন্তরিক আশীর্বাদ ও ভালোবাসার জন্য ধন্যবাদ।"
+  },
+  "blessings": {
+    "title": "আমাদের পরিবারের পক্ষ থেকে",
+    "subtitle": "Family Blessings",
+    "message": "আমাদের পরিবারের পক্ষ থেকে এই আনন্দের অনুষ্ঠানে আপনার উপস্থিতি আমাদের অত্যন্ত গুরুত্বপূর্ণ।",
+    "messageEn": "Your gracious presence will make our special day even more meaningful and memorable.",
+    "elders": "গুরুজনদের আশীর্বাদে",
+    "brideFamily": "কনে পক্ষ",
+    "groomFamily": "বর পক্ষ"
+  },
+  "nimontron": {
+    "title": "আমাদের আমন্ত্রণ",
+    "subtitle": "Our Invitation",
+    "message": "আমাদের পরিবারের পক্ষ থেকে এই আনন্দের অনুষ্ঠানে আপনার উপস্থিতি আমাদের অত্যন্ত গুরুত্বপূর্ণ।",
+    "messageEn": "Your gracious presence will make our special day even more meaningful and memorable.",
+    "from": "নিমন্ত্রণে"
+  },
+  "story": {
+    "title": "আমাদের গল্প",
+    "subtitle": "Our Story"
+  },
+  "ceremonies": {
+    "title": "অনুষ্ঠানের পর্বসমূহ",
+    "subtitle": "Wedding Events",
+    "dressCode": "পোশাক",
+    "addToCalendar": "ক্যালেন্ডারে রাখুন",
+    "openMap": "মানচিত্রে দেখুন",
+    "downloadICS": "ক্যালেন্ডার ফাইল (.ics)",
+    "googleCalendar": "গুগল ক্যালেন্ডার"
+  },
+  "venue": {
+    "title": "অনুষ্ঠান স্থল",
+    "subtitle": "Wedding Venue",
+    "station": "নিকটতম স্টেশন",
+    "airport": "নিকটতম বিমানবন্দর",
+    "parking": "পার্কিং",
+    "stay": "থাকার ব্যবস্থা",
+    "helpline": "সহায়তা ও যোগাযোগ",
+    "viewOnMap": "মানচিত্রে দেখুন"
+  },
+  "gallery": {
+    "title": "মধুর স্মৃতি",
+    "subtitle": "Cherished Moments",
+    "close": "বন্ধ করুন",
+    "prev": "পূর্ববর্তী ছবি",
+    "next": "পরবর্তী ছবি",
+    "viewPhoto": "ছবিটি বড় করে দেখুন"
+  },
+  "footer": {
+    "title": "বিদায়",
+    "subtitle": "Bidaay",
+    "closingBlessing": "এই বিশেষ দিনে আপনার আশীর্বাদ ও শুভেচ্ছা প্রার্থনা করি।",
+    "closingBlessingEn": "We look forward to your blessings and good wishes on our special day.",
+    "copyLink": "আমন্ত্রণপত্র শেয়ার করুন",
+    "copied": "লিংক কপি হয়েছে!",
+    "madeWith": "ভালোবাসায় তৈরি"
+  },
+  "liveStream": {
+    "watchLive": "লাইভ স্ট্রিমিং দেখুন"
+  },
+  "controls": {
+    "pauseAnimations": "অ্যানিমেশন থামান",
+    "resumeAnimations": "অ্যানিমেশন চালান",
+    "soundOn": "শব্দ চালু",
+    "soundOff": "শব্দ বন্ধ"
+  },
+  "language": {
+    "switch": "English"
+  }
+}

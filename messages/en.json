@@ -1,0 +1,121 @@
+{
+  "nav": {
+    "welcome": "Invitation",
+    "couple": "The Couple",
+    "details": "Wedding Details",
+    "blessings": "Family Blessings",
+    "events": "Wedding Events",
+    "venue": "Venue",
+    "story": "Our Story",
+    "gallery": "Memories",
+    "closing": "Blessings & Farewell",
+    "menu": "Menu"
+  },
+  "gate": {
+    "title": "Shubho Bibaho",
+    "subtitle": "The Wedding of",
+    "openButton": "Open the Invitation",
+    "loading": "Loading..."
+  },
+  "hero": {
+    "welcomeTitle": "Our Sincere Wedding Invitation",
+    "welcomeSubtitle": "We are delighted to invite you to the wedding of",
+    "weddingOf": "The Wedding of",
+    "and": "&",
+    "saveTheDate": "Save the Date",
+    "scrollDown": "Scroll Down"
+  },
+  "theCouple": {
+    "title": "The Couple",
+    "subtitle": "আমাদের দু'জন",
+    "brideRole": "The Bride",
+    "groomRole": "The Groom",
+    "quote": "Two families, one joy. Join us as Jhilik and Koushik begin their new journey together."
+  },
+  "weddingDetails": {
+    "title": "Wedding Details",
+    "subtitle": "বিবাহের শুভদিন",
+    "dateTitle": "Wedding Date",
+    "dateValue": "Wednesday, 25 November 2026",
+    "dateSub": "বুধবার, ২৫ নভেম্বর ২০২৬",
+    "ceremonyTitle": "Wedding Ceremony",
+    "ceremonySub": "বিবাহ অনুষ্ঠান",
+    "venueTitle": "Venue",
+    "venueSub": "অনুষ্ঠান স্থল"
+  },
+  "countdown": {
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+    "weddingDay": "Today is the Auspicious Wedding Day!"
+  },
+  "blessings": {
+    "title": "With the Blessings of Our Families",
+    "subtitle": "Family Blessings",
+    "message": "Your gracious presence will make our special day even more meaningful and memorable.",
+    "messageEn": "Your gracious presence will make our special day even more meaningful and memorable.",
+    "elders": "With the blessings of our elders",
+    "brideFamily": "Bride's Family",
+    "groomFamily": "Groom's Family"
+  },
+  "nimontron": {
+    "title": "Our Invitation",
+    "subtitle": "আমাদের আমন্ত্রণ",
+    "message": "Your gracious presence will make our special day even more meaningful and memorable.",
+    "messageEn": "Your gracious presence will make our special day even more meaningful and memorable.",
+    "from": "Cordially invited by"
+  },
+  "story": {
+    "title": "Our Story",
+    "subtitle": "আমাদের গল্প"
+  },
+  "ceremonies": {
+    "title": "Wedding Events",
+    "subtitle": "অনুষ্ঠানের পর্বসমূহ",
+    "dressCode": "Dress Code",
+    "addToCalendar": "Add to Calendar",
+    "openMap": "View on Map",
+    "downloadICS": "Calendar File (.ics)",
+    "googleCalendar": "Google Calendar"
+  },
+  "venue": {
+    "title": "Wedding Venue",
+    "subtitle": "অনুষ্ঠান স্থল",
+    "station": "Nearest Station",
+    "airport": "Nearest Airport",
+    "parking": "Parking",
+    "stay": "Where to Stay",
+    "helpline": "Helpline & Inquiries",
+    "viewOnMap": "View on Map"
+  },
+  "gallery": {
+    "title": "Cherished Moments",
+    "subtitle": "মধুর স্মৃতি",
+    "close": "Close Lightbox",
+    "prev": "Previous Photo",
+    "next": "Next Photo",
+    "viewPhoto": "View full photo"
+  },
+  "footer": {
+    "title": "Bidaay",
+    "subtitle": "বিদায়",
+    "closingBlessing": "We look forward to your blessings and good wishes on our special day.",
+    "closingBlessingEn": "We look forward to your blessings and good wishes on our special day.",
+    "copyLink": "Share Invitation",
+    "copied": "Link Copied!",
+    "madeWith": "Made with love"
+  },
+  "liveStream": {
+    "watchLive": "Watch Live Stream"
+  },
+  "controls": {
+    "pauseAnimations": "Pause Animations",
+    "resumeAnimations": "Resume Animations",
+    "soundOn": "Sound On",
+    "soundOff": "Sound Off"
+  },
+  "language": {
+    "switch": "বাংলা"
+  }
+}
