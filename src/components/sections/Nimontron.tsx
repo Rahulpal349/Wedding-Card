@@ -89,7 +89,7 @@ export default function Nimontron() {
 
         {/* Text Block (Screen 5) */}
         <div ref={textRef} className="text-center px-4 mb-6">
-          <h2 className="font-display-bn text-2xl sm:text-3xl text-[#3A0D14] font-medium leading-relaxed mb-4">
+          <h2 className="font-display-bn text-2xl sm:text-3xl text-[#3A0D14] font-medium leading-relaxed mb-3">
             {event.nimontron.textBn}
           </h2>
           <p className="font-serif italic text-base sm:text-lg text-[#6F0E20]/90 leading-relaxed max-w-sm mx-auto">
@@ -102,9 +102,17 @@ export default function Nimontron() {
             <span className="w-8 h-[1px] bg-[#B5532E]/30" />
           </div>
 
-          <p className="font-display-bn text-base text-[#6F0E20] font-semibold">
-            {event.nimontron.fromBn}
-          </p>
+          <div className="flex flex-col items-center">
+            <span className="text-xs font-semibold text-[#B5532E] uppercase tracking-wider mb-1 font-serif">
+              {locale === 'bn' ? '— নিমন্ত্রণে —' : '— Cordially Invited By —'}
+            </span>
+            <p className="font-display-bn text-xl sm:text-2xl text-[#B3172F] font-bold leading-tight">
+              {event.nimontron.fromBn}
+            </p>
+            <p className="font-display italic text-sm sm:text-base text-[#6F0E20] font-medium mt-0.5">
+              {event.nimontron.fromEn}
+            </p>
+          </div>
         </div>
 
         {/* Mangal Kalash with Mango Leaves, Coconut, and Jasmine Flowers */}

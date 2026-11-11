@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
+import { useLenisContext } from '@/hooks/useLenis';
 import LanguageToggle from './LanguageToggle';
 import SoundToggle from './SoundToggle';
 import PauseAnimations from './PauseAnimations';
@@ -16,6 +17,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const locale = useLocale();
   const t = useTranslations('nav');
+  const lenis = useLenisContext();
 
   // Close menu on ESC key
   useEffect(() => {
@@ -45,9 +47,8 @@ export default function Navbar() {
     { id: 'couple', label: t('couple'), icon: '💑' },
     { id: 'details', label: t('details'), icon: '📅' },
     { id: 'blessings', label: t('blessings'), icon: '🪔' },
-    { id: 'events', label: t('events'), icon: '✨' },
+    { id: 'the-day', label: t('theDay'), icon: '🕊️' },
     { id: 'venue', label: t('venue'), icon: '🏛️' },
-    { id: 'story', label: t('story'), icon: '📜' },
     { id: 'gallery', label: t('gallery'), icon: '🖼️' },
     { id: 'closing', label: t('closing'), icon: '🙏' },
   ];
@@ -56,7 +57,11 @@ export default function Navbar() {
     setIsOpen(false);
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      if (lenis) {
+        lenis.scrollTo(element, { offset: 0, duration: 1.2 });
+      } else {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -64,9 +69,10 @@ export default function Navbar() {
     <>
       {/* Top Floating Bar */}
       <header
-        className="fixed top-3 right-3 sm:top-5 sm:right-6 z-40 flex items-center gap-2"
+        className="fixed top-3 right-3 sm:top-5 sm:right-6 z-40 flex items-center gap-1.5 sm:gap-2"
         role="banner"
       >
+        <PauseAnimations />
         <SoundToggle />
         <LanguageToggle />
 
@@ -151,7 +157,13 @@ export default function Navbar() {
 
             {/* Bottom Controls */}
             <div className="pt-6 border-t border-[#B3172F]/20 flex flex-col gap-3">
-              <div className="flex items-center justify-between text-sm text-[#3A0D14]/70">
+              <div className="flex items-center justify-between gap-2">
+                <PauseAnimations
+                  showLabel
+                  className="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-[#F6E9D2] text-[#6F0E20] font-medium text-xs sm:text-sm border border-[#B5532E]/20"
+                />
+              </div>
+              <div className="flex items-center justify-between text-xs text-[#3A0D14]/70 pt-2">
                 <span>{locale === 'bn' ? 'ঝিলিক ও কৌশিক' : 'Jhilik & Koushik'}</span>
                 <span>25 Nov 2026</span>
               </div>
@@ -162,4 +174,3 @@ export default function Navbar() {
     </>
   );
 }
-

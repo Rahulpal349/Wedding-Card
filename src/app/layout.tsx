@@ -36,13 +36,13 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
-  metadataBase: new URL('https://jhilik-koushik.wedding'),
+  metadataBase: new URL('https://jhilik-koushik.vercel.app'),
   openGraph: {
-    title: 'Jhilik & Koushik | শুভ বিবাহ',
+    title: 'Jhilik Dey & Koushik Dey | শুভ বিবাহ — ২৫ নভেম্বর ২০২৬',
     description:
-      'আপনাকে সাদর আমন্ত্রণ জানাচ্ছি ঝিলিক ও কৌশিকের শুভ বিবাহ অনুষ্ঠানে।',
+      'দিলীপ দে ও মায়া দে-র কন্যা ঝিলিক এবং কৌশিকের শুভ বিবাহে সাদর আমন্ত্রণ — ২৫ নভেম্বর ২০২৬, অশ্বিনী রাজ কমিউনিটি হল, বেলিয়াতোড়, বাঁকুড়া।',
     images: ['/og-image.png'],
-    siteName: 'Jhilik & Koushik | শুভ বিবাহ',
+    siteName: 'Jhilik Dey & Koushik Dey | শুভ বিবাহ',
     locale: 'bn_BD',
     type: 'website',
   },
@@ -58,9 +58,13 @@ export default function RootLayout({
 }) {
   return (
     <html
+      suppressHydrationWarning
       className={`${galada.variable} ${hindSiliguri.variable} ${cormorantGaramond.variable}`}
     >
-      <body className={`${hindSiliguri.variable} ${cormorantGaramond.variable} ${galada.variable} font-body min-h-[100dvh]`}>
+      <body
+        suppressHydrationWarning
+        className={`${hindSiliguri.variable} ${cormorantGaramond.variable} ${galada.variable} font-body min-h-[100dvh]`}
+      >
         {children}
         <Analytics />
       </body>

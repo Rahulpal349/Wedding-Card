@@ -10,6 +10,8 @@ interface CalendarLinksProps {
   end: string;
   location: string;
   description: string;
+  compact?: boolean;
+  align?: 'left' | 'right';
 }
 
 export default function CalendarLinks({
@@ -18,6 +20,8 @@ export default function CalendarLinks({
   end,
   location,
   description,
+  compact = false,
+  align = 'left',
 }: CalendarLinksProps) {
   const t = useTranslations('ceremonies');
   const [isOpen, setIsOpen] = useState(false);
@@ -64,10 +68,14 @@ export default function CalendarLinks({
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
         aria-haspopup="true"
-        className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg bg-[#B3172F] text-[#FFF8EC] text-sm font-medium hover:bg-[#6F0E20] transition-colors min-h-[44px] min-w-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2B705] shadow-sm"
+        className={
+          compact
+            ? 'inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full bg-[#B3172F] text-[#FFF8EC] text-xs font-semibold hover:bg-[#6F0E20] transition-colors min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2B705] shadow-sm'
+            : 'inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg bg-[#B3172F] text-[#FFF8EC] text-sm font-medium hover:bg-[#6F0E20] transition-colors min-h-[44px] min-w-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2B705] shadow-sm'
+        }
       >
         <svg
-          className="w-4 h-4"
+          className="w-3.5 h-3.5"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
@@ -81,7 +89,7 @@ export default function CalendarLinks({
         </svg>
         <span>{t('addToCalendar')}</span>
         <svg
-          className={`w-3.5 h-3.5 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-3 h-3 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
@@ -96,13 +104,15 @@ export default function CalendarLinks({
         <div
           role="menu"
           aria-orientation="vertical"
-          className="absolute left-0 mt-2 w-52 rounded-xl bg-[#FFF8EC] border border-[#B5532E]/30 shadow-xl z-30 py-1.5 focus:outline-none animate-fadeIn"
+          className={`absolute mt-2 w-52 rounded-xl bg-[#FFF8EC] border border-[#B5532E]/30 shadow-xl z-30 py-1.5 focus:outline-none animate-fadeIn ${
+            align === 'right' ? 'right-0 sm:right-0 left-auto' : 'left-0'
+          }`}
         >
           <button
             role="menuitem"
             type="button"
             onClick={handleDownloadICS}
-            className="flex items-center w-full px-4 py-2.5 text-sm text-[#3A0D14] hover:bg-[#F6E9D2] transition-colors text-left min-h-[44px]"
+            className="flex items-center w-full px-4 py-2.5 text-xs sm:text-sm text-[#3A0D14] hover:bg-[#F6E9D2] transition-colors text-left min-h-[44px]"
           >
             <svg
               className="w-4 h-4 mr-2.5 text-[#B3172F]"
@@ -122,7 +132,7 @@ export default function CalendarLinks({
             role="menuitem"
             type="button"
             onClick={handleGoogleCalendar}
-            className="flex items-center w-full px-4 py-2.5 text-sm text-[#3A0D14] hover:bg-[#F6E9D2] transition-colors text-left min-h-[44px]"
+            className="flex items-center w-full px-4 py-2.5 text-xs sm:text-sm text-[#3A0D14] hover:bg-[#F6E9D2] transition-colors text-left min-h-[44px]"
           >
             <svg
               className="w-4 h-4 mr-2.5 text-[#B3172F]"
@@ -143,4 +153,3 @@ export default function CalendarLinks({
     </div>
   );
 }
-

@@ -1,12 +1,12 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
-import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTranslations, useLocale } from 'next-intl';
 import { event } from '../../../content/event';
 import JoraMachSVG from '@/components/motifs/JoraMach';
+import PhotoHolder from '@/components/ui/PhotoHolder';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 if (typeof window !== 'undefined') {
@@ -14,7 +14,7 @@ if (typeof window !== 'undefined') {
 }
 
 export default function TheCouple() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const leftArchRef = useRef<HTMLDivElement>(null);
   const rightArchRef = useRef<HTMLDivElement>(null);
   const t = useTranslations('theCouple');
@@ -28,13 +28,13 @@ export default function TheCouple() {
       if (leftArchRef.current && rightArchRef.current) {
         gsap.fromTo(
           [leftArchRef.current, rightArchRef.current],
-          { opacity: 0, y: 30, scale: 0.95 },
+          { opacity: 0, y: 25, scale: 0.96 },
           {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 1,
-            stagger: 0.2,
+            duration: 0.9,
+            stagger: 0.15,
             ease: 'power2.out',
             scrollTrigger: {
               trigger: sectionRef.current,
@@ -53,21 +53,21 @@ export default function TheCouple() {
     <section
       id="couple"
       ref={sectionRef}
-      className="relative min-h-screen py-16 px-4 flex flex-col justify-between items-center bg-[#FFF8EC] text-[#3A0D14] overflow-hidden"
+      className="relative min-h-[100dvh] py-14 px-4 flex flex-col justify-between items-center bg-[#FFF8EC] text-[#3A0D14] overflow-hidden"
       style={{
         backgroundImage:
           'radial-gradient(circle at 50% 30%, rgba(246,233,210,0.6) 0%, rgba(255,248,236,1) 100%)',
       }}
     >
-      <div className="w-full max-w-[430px] mx-auto flex flex-col items-center">
-        {/* Section Heading: আমাদের দু'জন / The Couple */}
-        <div className="text-center mb-8">
+      <div className="w-full max-w-[420px] mx-auto flex flex-col items-center">
+        {/* Section Heading: আমাদের দু'জন / The Couple (Matches Screen 3) */}
+        <div className="text-center mb-6">
           <h2 className="font-display-bn text-3xl sm:text-4xl text-[#B3172F] font-bold drop-shadow-sm">
-            {locale === 'bn' ? 'আমাদের দু’জন' : 'The Couple'}
+            {locale === 'bn' ? "আমাদের দু'জন" : 'The Couple'}
           </h2>
           <div className="flex items-center justify-center gap-2 mt-1 text-[#B5532E]">
             <span className="text-sm select-none">❧</span>
-            <p className="font-display italic text-lg sm:text-xl text-[#6F0E20]/90">
+            <p className="font-display italic text-lg sm:text-xl text-[#6F0E20] font-medium">
               {locale === 'bn' ? 'The Couple' : "আমাদের দু'জন"}
             </p>
             <span className="text-sm select-none">❧</span>
@@ -75,32 +75,35 @@ export default function TheCouple() {
         </div>
 
         {/* Dual Arched Portraits Grid */}
-        <div className="w-full grid grid-cols-2 gap-3 sm:gap-6 px-1 sm:px-2 mb-6 max-w-[380px]">
+        <div className="w-full grid grid-cols-2 gap-3 sm:gap-5 px-1 sm:px-2 mb-4 max-w-[370px]">
           {/* Left Arch: Bride (Jhilik) */}
           <div ref={leftArchRef} className="flex flex-col items-center text-center">
-            <div className="relative w-full aspect-[3/4] max-w-[150px] sm:max-w-[170px] rounded-t-full rounded-b-2xl overflow-hidden border-3 sm:border-4 border-[#B3172F] shadow-xl bg-[#F6E9D2]">
-              <Image
-                src="/images/bride-portrait.webp"
-                alt="Jhilik - The Bride"
-                fill
-                sizes="(max-width: 430px) 45vw, 170px"
-                className="object-cover object-top"
+            <div className="w-full max-w-[145px] sm:max-w-[165px]">
+              <PhotoHolder
+                src={event.photos.bride}
+                alt={`${event.bride.name} - ${event.bride.role}`}
+                aspect="aspect-[3/4]"
+                shape="arch"
+                labelBn={event.bride.nameBn}
+                labelEn={event.bride.name}
+                hintBn="কনের ছবির স্থান"
+                hintEn="Bride's Photo"
+                sizes="(max-width: 430px) 45vw, 165px"
               />
-              <div className="absolute inset-0 ring-1 ring-inset ring-[#B3172F]/30 rounded-t-full rounded-b-2xl pointer-events-none" />
             </div>
 
-            {/* Bride Details */}
-            <div className="mt-2.5 sm:mt-3">
-              <h3 className="font-display-bn text-xl sm:text-2xl text-[#B3172F] font-bold">
+            {/* Bride Details - Rich Crimson and Maroon Typography */}
+            <div className="mt-2.5 sm:mt-3 flex flex-col items-center">
+              <h3 className="font-display-bn text-xl sm:text-2xl text-[#B3172F] font-bold leading-tight">
                 {event.bride.nameBn}
               </h3>
-              <p className="text-xs sm:text-sm font-semibold text-[#6F0E20]">
+              <p className="text-xs sm:text-sm font-semibold text-[#6F0E20] italic">
                 {event.bride.roleBn}
               </p>
-              <p className="font-display italic text-sm sm:text-base text-[#3A0D14]/80 mt-0.5">
+              <p className="font-display text-sm sm:text-base text-[#B3172F] font-bold mt-0.5">
                 {event.bride.name}
               </p>
-              <p className="font-display italic text-[11px] sm:text-xs text-[#3A0D14]/60">
+              <p className="font-display italic text-xs sm:text-sm text-[#6F0E20] font-medium">
                 {event.bride.role}
               </p>
             </div>
@@ -108,55 +111,53 @@ export default function TheCouple() {
 
           {/* Right Arch: Groom (Koushik) */}
           <div ref={rightArchRef} className="flex flex-col items-center text-center">
-            <div className="relative w-full aspect-[3/4] max-w-[150px] sm:max-w-[170px] rounded-t-full rounded-b-2xl overflow-hidden border-3 sm:border-4 border-[#B3172F] shadow-xl bg-[#F6E9D2]">
-              <Image
-                src="/images/groom-portrait.webp"
-                alt="Koushik - The Groom"
-                fill
-                sizes="(max-width: 430px) 45vw, 170px"
-                className="object-cover object-top"
+            <div className="w-full max-w-[145px] sm:max-w-[165px]">
+              <PhotoHolder
+                src={event.photos.groom}
+                alt={`${event.groom.name} - ${event.groom.role}`}
+                aspect="aspect-[3/4]"
+                shape="arch"
+                labelBn={event.groom.nameBn}
+                labelEn={event.groom.name}
+                hintBn="বরের ছবির স্থান"
+                hintEn="Groom's Photo"
+                sizes="(max-width: 430px) 45vw, 165px"
               />
-              <div className="absolute inset-0 ring-1 ring-inset ring-[#B3172F]/30 rounded-t-full rounded-b-2xl pointer-events-none" />
             </div>
 
-            {/* Groom Details */}
-            <div className="mt-2.5 sm:mt-3">
-              <h3 className="font-display-bn text-xl sm:text-2xl text-[#B3172F] font-bold">
+            {/* Groom Details - Rich Crimson and Maroon Typography */}
+            <div className="mt-2.5 sm:mt-3 flex flex-col items-center">
+              <h3 className="font-display-bn text-xl sm:text-2xl text-[#B3172F] font-bold leading-tight">
                 {event.groom.nameBn}
               </h3>
-              <p className="text-xs sm:text-sm font-semibold text-[#6F0E20]">
+              <p className="text-xs sm:text-sm font-semibold text-[#6F0E20] italic">
                 {event.groom.roleBn}
               </p>
-              <p className="font-display italic text-sm sm:text-base text-[#3A0D14]/80 mt-0.5">
+              <p className="font-display text-sm sm:text-base text-[#B3172F] font-bold mt-0.5">
                 {event.groom.name}
               </p>
-              <p className="font-display italic text-[11px] sm:text-xs text-[#3A0D14]/60">
+              <p className="font-display italic text-xs sm:text-sm text-[#6F0E20] font-medium">
                 {event.groom.role}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Center Heart Emblem */}
-        <div className="flex items-center justify-center my-2 text-[#B3172F]">
-          <span className="text-xl" aria-hidden="true">
+        {/* Center Heart Emblem (Matches Screen 3) */}
+        <div className="flex items-center justify-center my-1 text-[#B3172F]">
+          <span className="text-xl select-none" aria-hidden="true">
             ♡
           </span>
         </div>
 
-        {/* Quote / Subtext */}
-        <p className="text-center text-sm sm:text-base text-[#3A0D14]/85 px-6 italic max-w-sm font-serif">
-          {locale === 'bn' ? event.theCouple.quoteBn : event.theCouple.quoteEn}
-        </p>
-
-        {/* Jora Mach (Twin Fish) Sacred Folk Motif */}
-        <div className="w-28 h-20 text-[#B3172F] mt-4 mb-2 drop-shadow-sm">
+        {/* Jora Mach (Twin Fish) Sacred Folk Motif (Matches Screen 3) */}
+        <div className="w-28 h-[72px] text-[#B3172F] my-2 drop-shadow-sm">
           <JoraMachSVG />
         </div>
       </div>
 
       {/* Bottom Scalloped Folk Border */}
-      <div className="w-full max-w-[430px] pt-4 border-t border-[#B3172F]/20 flex justify-center opacity-80">
+      <div className="w-full max-w-[420px] pt-3 border-t border-[#B3172F]/20 flex justify-center opacity-80">
         <svg className="w-full h-4 text-[#B3172F]" viewBox="0 0 320 16" fill="currentColor">
           <pattern id="couple-scallop-border" width="20" height="16" patternUnits="userSpaceOnUse">
             <path d="M 0 0 C 5 0, 5 8, 10 8 C 15 8, 15 0, 20 0" fill="none" stroke="currentColor" strokeWidth="1" />
@@ -168,4 +169,3 @@ export default function TheCouple() {
     </section>
   );
 }
-

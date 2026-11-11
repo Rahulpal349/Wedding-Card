@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTranslations, useLocale } from 'next-intl';
 import { event } from '../../../content/event';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useLenisContext } from '@/hooks/useLenis';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -17,6 +18,15 @@ export default function WeddingDetails() {
   const t = useTranslations('weddingDetails');
   const locale = useLocale();
   const prefersReducedMotion = useReducedMotion();
+  const lenis = useLenisContext();
+
+  const scrollToVenue = () => {
+    if (lenis) {
+      lenis.scrollTo('#venue', { duration: 1.2 });
+    } else {
+      document.getElementById('venue')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     if (prefersReducedMotion) return;
@@ -162,15 +172,25 @@ export default function WeddingDetails() {
             </div>
           </div>
 
-          {/* 3. Venue Location Card */}
+          {/* 3. Venue Location Card (Clickable to Venue Section) */}
           <div
             ref={(el) => {
               itemsRef.current[2] = el;
             }}
-            className="flex items-center gap-5 p-4 rounded-2xl bg-[#F6E9D2]/70 border border-[#B3172F]/15 shadow-sm"
+            onClick={scrollToVenue}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                scrollToVenue();
+              }
+            }}
+            aria-label={`${locale === 'bn' ? 'অনুষ্ঠান স্থল বিবরণ দেখুন' : 'View Venue Details'}: ${event.venue.name}`}
+            className="group flex items-center gap-5 p-4 rounded-2xl bg-[#F6E9D2]/70 hover:bg-[#F6E9D2] active:scale-[0.99] border border-[#B3172F]/15 hover:border-[#B3172F]/35 shadow-sm transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#B3172F]"
           >
             {/* Map Pin Icon */}
-            <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-[#B3172F]/10 border border-[#B3172F]/30 flex items-center justify-center text-[#B3172F]">
+            <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-[#B3172F]/10 group-hover:bg-[#B3172F]/20 border border-[#B3172F]/30 flex items-center justify-center text-[#B3172F] transition-colors">
               <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                 <circle cx="12" cy="10" r="3" />
@@ -178,9 +198,14 @@ export default function WeddingDetails() {
             </div>
             {/* Text */}
             <div className="flex-1">
-              <h3 className="font-display-bn text-xl text-[#B3172F] font-bold">
-                {locale === 'bn' ? 'অনুষ্ঠান স্থল' : 'Wedding Venue'}
-              </h3>
+              <div className="flex items-center justify-between">
+                <h3 className="font-display-bn text-xl text-[#B3172F] font-bold group-hover:underline">
+                  {locale === 'bn' ? 'অনুষ্ঠান স্থল' : 'Wedding Venue'}
+                </h3>
+                <span className="text-xs text-[#B3172F] font-semibold opacity-75 group-hover:opacity-100 transition-opacity">
+                  {locale === 'bn' ? 'বিবরণ ↓' : 'Details ↓'}
+                </span>
+              </div>
               <p className="text-base font-semibold text-[#3A0D14] mt-0.5">
                 {locale === 'bn' ? `${event.venue.nameBn}, ${event.venue.cityBn}` : `${event.venue.name}, ${event.venue.city}`}
               </p>

@@ -3,7 +3,15 @@
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 
-export default function PauseAnimations() {
+interface PauseAnimationsProps {
+  className?: string;
+  showLabel?: boolean;
+}
+
+export default function PauseAnimations({
+  className = '',
+  showLabel = false,
+}: PauseAnimationsProps) {
   const [isPaused, setIsPaused] = useState(false);
   const t = useTranslations('controls');
 
@@ -18,28 +26,35 @@ export default function PauseAnimations() {
   }, [isPaused]);
 
   return (
-    <div className="fixed bottom-3 left-3 sm:bottom-5 sm:left-5 z-40 pb-[env(safe-area-inset-bottom,0px)] pl-[env(safe-area-inset-left,0px)]">
-      <button
-        type="button"
-        onClick={() => setIsPaused(!isPaused)}
-        aria-pressed={isPaused}
-        aria-label={isPaused ? t('resumeAnimations') : t('pauseAnimations')}
-        title={isPaused ? t('resumeAnimations') : t('pauseAnimations')}
-        className="w-11 h-11 rounded-full bg-[#3A0D14]/85 hover:bg-[#3A0D14] text-[#FFF8EC] backdrop-blur-md shadow-lg border border-[#FFF8EC]/20 flex items-center justify-center transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2B705] cursor-pointer"
-      >
-        {isPaused ? (
-          /* Play icon */
-          <svg className="w-5 h-5 fill-current ml-0.5" viewBox="0 0 24 24">
+    <button
+      type="button"
+      onClick={() => setIsPaused(!isPaused)}
+      aria-pressed={isPaused}
+      aria-label={isPaused ? t('resumeAnimations') : t('pauseAnimations')}
+      title={isPaused ? t('resumeAnimations') : t('pauseAnimations')}
+      className={
+        className ||
+        'inline-flex items-center justify-center gap-1.5 p-2.5 rounded-full bg-[#FFF8EC]/90 hover:bg-[#F6E9D2] backdrop-blur-md text-[#6F0E20] font-semibold text-xs border border-[#B5532E]/30 shadow-md transition-all duration-200 min-h-[44px] min-w-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2B705] cursor-pointer'
+      }
+    >
+      {isPaused ? (
+        /* Play / Resume Icon */
+        <>
+          <svg className="w-4 h-4 fill-current ml-0.5" viewBox="0 0 24 24">
             <polygon points="5 3 19 12 5 21 5 3" />
           </svg>
-        ) : (
-          /* Pause icon */
-          <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+          {showLabel && <span>{t('resumeAnimations')}</span>}
+        </>
+      ) : (
+        /* Pause Icon */
+        <>
+          <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
             <rect x="6" y="4" width="4" height="16" rx="1" />
             <rect x="14" y="4" width="4" height="16" rx="1" />
           </svg>
-        )}
-      </button>
-    </div>
+          {showLabel && <span>{t('pauseAnimations')}</span>}
+        </>
+      )}
+    </button>
   );
 }

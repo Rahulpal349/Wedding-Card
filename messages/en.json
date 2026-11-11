@@ -5,6 +5,7 @@
     "details": "Wedding Details",
     "blessings": "Family Blessings",
     "events": "Wedding Events",
+    "theDay": "The Day",
     "venue": "Venue",
     "story": "Our Story",
     "gallery": "Memories",
@@ -77,7 +78,18 @@
     "addToCalendar": "Add to Calendar",
     "openMap": "View on Map",
     "downloadICS": "Calendar File (.ics)",
-    "googleCalendar": "Google Calendar"
+    "googleCalendar": "Google Calendar",
+    "viewWeddingDaySchedule": "View Detailed Wedding Day Rituals & Itinerary"
+  },
+  "theDay": {
+    "title": "The Day",
+    "subtitle": "মাঙ্গলিক দিনপঞ্জি",
+    "headerSmall": "LET THE DAY UNFOLD",
+    "subheading": "Subho Bibaha • Bengali Wedding Ceremonies",
+    "tagline": "TOGETHER FOREVER",
+    "couple": "Jhilik & Koushik",
+    "addToCalendar": "Add to Calendar",
+    "viewItinerary": "View Complete Itinerary"
   },
   "venue": {
     "title": "Wedding Venue",

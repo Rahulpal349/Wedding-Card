@@ -57,7 +57,7 @@ export default function Footer() {
         </div>
 
         {/* Red Folk Jora Mach (Twin Fish) Motif */}
-        <div className="w-28 h-18 text-[#FFF8EC]/90 my-3 drop-shadow-md">
+        <div className="w-28 h-[72px] text-[#FFF8EC]/90 my-3 drop-shadow-md">
           <JoraMachSVG />
         </div>
 

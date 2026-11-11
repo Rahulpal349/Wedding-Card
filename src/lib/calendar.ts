@@ -62,7 +62,13 @@ export function downloadICS(event: CalendarEvent): void {
 
   const link = document.createElement('a');
   link.href = url;
-  link.download = `${event.title.replace(/\s+/g, '-').toLowerCase()}.ics`;
+  const safeFilename =
+    event.title
+      .replace(/[^\w\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-')
+      .toLowerCase() || 'wedding-event';
+  link.download = `${safeFilename}.ics`;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);

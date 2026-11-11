@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useCallback, useState } from 'react';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
 export interface GalleryPhoto {
   id: number;
+  src?: string | null;
   titleEn: string;
   titleBn: string;
   captionEn: string;
@@ -113,33 +115,47 @@ export default function Lightbox({
           onTouchEnd={handleTouchEnd}
           className="relative w-full aspect-[4/3] sm:aspect-[16/10] bg-[#F6E9D2] rounded-2xl flex flex-col items-center justify-center p-8 border-2 border-dashed border-[#B5532E]/40 overflow-hidden shadow-inner select-none cursor-grab"
         >
-          {/* Decorative Corner Folk Accents */}
-          <div className="absolute top-3 left-3 text-[#B3172F]/40 font-mono text-xs">✦ শুভ ✦</div>
-          <div className="absolute top-3 right-3 text-[#B3172F]/40 font-mono text-xs">✦ বিবাহ ✦</div>
-          <div className="absolute bottom-3 left-3 text-[#B3172F]/40 font-mono text-xs">✦ Jhilik ✦</div>
-          <div className="absolute bottom-3 right-3 text-[#B3172F]/40 font-mono text-xs">✦ Koushik ✦</div>
+          {currentPhoto?.src ? (
+            <div className="relative w-full h-full rounded-xl overflow-hidden">
+              <Image
+                src={currentPhoto.src}
+                alt={title}
+                fill
+                sizes="(max-width: 800px) 100vw, 800px"
+                className="object-contain"
+              />
+            </div>
+          ) : (
+            <>
+              {/* Decorative Corner Folk Accents */}
+              <div className="absolute top-3 left-3 text-[#B3172F]/40 font-mono text-xs">✦ শুভ ✦</div>
+              <div className="absolute top-3 right-3 text-[#B3172F]/40 font-mono text-xs">✦ বিবাহ ✦</div>
+              <div className="absolute bottom-3 left-3 text-[#B3172F]/40 font-mono text-xs">✦ Jhilik ✦</div>
+              <div className="absolute bottom-3 right-3 text-[#B3172F]/40 font-mono text-xs">✦ Koushik ✦</div>
 
-          {/* Stylized Photo Graphic Placeholder */}
-          <div className="w-24 h-24 sm:w-32 sm:h-32 text-[#B3172F] mb-4">
-            <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
-              <rect x="10" y="15" width="80" height="70" rx="8" strokeWidth="2.5" />
-              <circle cx="35" cy="40" r="10" />
-              <path d="M15 75 L45 45 L70 70 L85 55" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-          </div>
+              {/* Stylized Photo Graphic Placeholder */}
+              <div className="w-24 h-24 sm:w-32 sm:h-32 text-[#B3172F] mb-4">
+                <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
+                  <rect x="10" y="15" width="80" height="70" rx="8" strokeWidth="2.5" />
+                  <circle cx="35" cy="40" r="10" />
+                  <path d="M15 75 L45 45 L70 70 L85 55" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              </div>
 
-          <h4
-            className={
-              locale === 'bn'
-                ? 'font-display-bn text-2xl sm:text-3xl font-bold text-[#6F0E20] text-center'
-                : 'font-display text-2xl sm:text-3xl font-bold text-[#6F0E20] text-center'
-            }
-          >
-            {title}
-          </h4>
-          <p className="text-sm sm:text-base text-[#3A0D14]/75 mt-2 text-center max-w-md">
-            {caption}
-          </p>
+              <h4
+                className={
+                  locale === 'bn'
+                    ? 'font-display-bn text-2xl sm:text-3xl font-bold text-[#6F0E20] text-center'
+                    : 'font-display text-2xl sm:text-3xl font-bold text-[#6F0E20] text-center'
+                }
+              >
+                {title}
+              </h4>
+              <p className="text-sm sm:text-base text-[#3A0D14]/75 mt-2 text-center max-w-md">
+                {caption}
+              </p>
+            </>
+          )}
         </div>
 
         {/* Bottom Navigation Buttons */}

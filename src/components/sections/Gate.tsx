@@ -169,10 +169,10 @@ export default function Gate() {
 
           {/* Names */}
           <h2 className="font-display-bn text-3xl sm:text-4xl text-[#FFF8EC] font-bold mt-2 tracking-wide drop-shadow-md">
-            ঝিলিক &amp; কৌশিক
+            {event.bride.nameBn} &amp; {event.groom.nameBn}
           </h2>
           <p className="font-display italic text-lg sm:text-xl text-[#FFF8EC]/90 mt-0.5">
-            Jhilik &amp; Koushik
+            {event.bride.name} &amp; {event.groom.name}
           </p>
 
           {/* Ornate Flourish Divider */}
@@ -186,7 +186,7 @@ export default function Gate() {
         </div>
 
         {/* Ceremonial Still Life Artwork (Diya, Shankha, Shankha-Pola, Jasmine) */}
-        <div className="relative w-full max-w-[300px] aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-[#FFF8EC]/20 my-2">
+        <div className="relative w-full max-w-[300px] aspect-[4/3] max-h-[28vh] rounded-2xl overflow-hidden shadow-2xl border border-[#FFF8EC]/20 my-2">
           <Image
             src="/images/gate-pradip-shankha.webp"
             alt="Traditional Bengali wedding offerings: Pradip diya, holy Shankha, and Shankha-Pola bangles"
@@ -205,7 +205,7 @@ export default function Gate() {
             ref={buttonRef}
             onClick={handleOpen}
             className="w-full max-w-[280px] bg-[#FFF8EC] text-[#6F0E20] font-bold text-base sm:text-lg py-3.5 px-6 rounded-full
-                       shadow-xl hover:bg-[#F6E9D2] hover:scale-102 active:scale-98 transition-all duration-300
+                       shadow-xl hover:bg-[#F6E9D2] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300
                        min-h-[48px] cursor-pointer border border-[#F2B705]/40 focus:outline-none focus:ring-2 focus:ring-[#F2B705]"
             aria-label={t('openButton')}
           >

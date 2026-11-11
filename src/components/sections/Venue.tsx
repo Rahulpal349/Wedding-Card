@@ -1,11 +1,11 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
-import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTranslations, useLocale } from 'next-intl';
 import { event } from '../../../content/event';
+import PhotoHolder from '@/components/ui/PhotoHolder';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 if (typeof window !== 'undefined') {
@@ -152,19 +152,19 @@ export default function Venue() {
           </a>
         </div>
 
-        {/* Night Photo: Heritage Bengali Rajbari with Courtyard Alpona */}
-        <div
-          ref={cardRef}
-          className="relative w-full aspect-[4/3] max-w-[390px] rounded-3xl overflow-hidden shadow-2xl border border-[#F2B705]/30 bg-[#1A0508] mb-6"
-        >
-          <Image
-            src="/images/venue-rajbari-night.webp"
+        {/* Night Photo / Photo Holder: Heritage Bengali Rajbari */}
+        <div ref={cardRef} className="w-full max-w-[390px] mb-6">
+          <PhotoHolder
+            src={event.photos.venue}
             alt="Heritage Bengali Rajbari courtyard lit with warm lanterns and central Alpona at twilight"
-            fill
-            sizes="(max-width: 430px) 100vw, 390px"
-            className="object-cover object-center"
+            aspect="aspect-[4/3]"
+            shape="rounded"
+            labelBn="অনুষ্ঠান স্থলের ছবি"
+            labelEn="Wedding Venue Photo"
+            hintBn="ভেন্যুর ছবি যুক্ত করুন (৪:৩)"
+            hintEn="Add Venue Photo (4:3)"
+            className="border-[#F2B705]/40"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#150306]/70 via-transparent to-transparent pointer-events-none" />
         </div>
 
         {/* Additional Travel Assistance (Collapsible / Compact) */}

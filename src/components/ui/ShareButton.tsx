@@ -28,7 +28,11 @@ export default function ShareButton() {
     // 1. Try Native Web Share API on mobile
     if (typeof navigator !== 'undefined' && navigator.share) {
       try {
-        await navigator.share({ title, text, url });
+        await navigator.share({
+          title,
+          text: `${text}\n${url}`,
+          url,
+        });
         return; // Successfully shared or handled by system
       } catch (err: unknown) {
         // If the user cancelled or dismissed the share sheet, do NOT copy or flash alert

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { event } from '../../../content/event';
 import Lightbox, { GalleryPhoto } from '@/components/ui/Lightbox';
+import PhotoHolder from '@/components/ui/PhotoHolder';
 import KanthaStitchSVG from '@/components/motifs/KanthaStitch';
 import PaanLeafSVG from '@/components/motifs/PaanLeaf';
 
@@ -33,7 +34,7 @@ export default function Gallery() {
   };
 
   return (
-    <section className="bg-[#FFF8EC] py-20 md:py-28 px-4 sm:px-6 relative overflow-hidden">
+    <section id="gallery" className="bg-[#FFF8EC] py-20 md:py-28 px-4 sm:px-6 relative overflow-hidden">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
@@ -71,21 +72,18 @@ export default function Gallery() {
                 aria-label={`${t('viewPhoto')}: ${title}`}
                 className="group relative bg-[#F6E9D2] rounded-2xl p-4 sm:p-5 border border-[#B5532E]/25 shadow-md text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2B705] cursor-pointer"
               >
-                {/* Visual Thumbnail Area */}
-                <div className="relative aspect-[4/3] bg-[#FFF8EC] rounded-xl flex flex-col items-center justify-center p-6 border border-dashed border-[#B5532E]/30 overflow-hidden mb-4">
-                  <div className="w-16 h-16 text-[#B3172F] opacity-75 group-hover:scale-110 transition-transform duration-300">
-                    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
-                      <rect x="10" y="15" width="80" height="70" rx="8" strokeWidth="2.5" />
-                      <circle cx="35" cy="40" r="10" />
-                      <path d="M15 75 L45 45 L70 70 L85 55" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                  {/* Subtle hover icon overlay */}
-                  <div className="absolute inset-0 bg-[#6F0E20]/0 group-hover:bg-[#6F0E20]/10 transition-colors flex items-center justify-center">
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity px-3 py-1 rounded-full bg-[#FFF8EC] text-[#6F0E20] text-xs font-bold shadow-md">
-                      {t('viewPhoto')}
-                    </span>
-                  </div>
+                {/* Visual Thumbnail Photo Holder */}
+                <div className="mb-4">
+                  <PhotoHolder
+                    src={photo.src}
+                    alt={title}
+                    aspect="aspect-[4/3]"
+                    shape="rectangle"
+                    labelBn={title}
+                    labelEn={title}
+                    hintBn="মধুর স্মৃতির ছবি (৪:৩)"
+                    hintEn="Cherished Moment (4:3)"
+                  />
                 </div>
 
                 {/* Details */}

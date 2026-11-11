@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
-import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
@@ -9,7 +8,9 @@ import { useTranslations, useLocale } from 'next-intl';
 import { event } from '../../../content/event';
 import Countdown from '@/components/ui/Countdown';
 import PetalParticles from '@/components/ui/PetalParticles';
+import PhotoHolder from '@/components/ui/PhotoHolder';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useLenisContext } from '@/hooks/useLenis';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -22,6 +23,7 @@ export default function Hero() {
   const t = useTranslations('hero');
   const locale = useLocale();
   const prefersReducedMotion = useReducedMotion();
+  const lenis = useLenisContext();
 
   useEffect(() => {
     if (prefersReducedMotion) return;
@@ -30,11 +32,11 @@ export default function Hero() {
       if (textRef.current) {
         gsap.fromTo(
           textRef.current,
-          { opacity: 0, y: 25 },
+          { opacity: 0, y: 20 },
           {
             opacity: 1,
             y: 0,
-            duration: 1,
+            duration: 0.9,
             ease: 'power2.out',
             scrollTrigger: {
               trigger: sectionRef.current,
@@ -52,7 +54,7 @@ export default function Hero() {
           {
             scale: 1,
             opacity: 1,
-            duration: 1.2,
+            duration: 1.1,
             ease: 'power2.out',
             scrollTrigger: {
               trigger: imageRef.current,
@@ -67,16 +69,22 @@ export default function Hero() {
     return () => ctx.revert();
   }, [prefersReducedMotion]);
 
-  const brideName = locale === 'bn' ? event.bride.nameBn : event.bride.name;
-  const groomName = locale === 'bn' ? event.groom.nameBn : event.groom.name;
+  const scrollToNext = () => {
+    if (lenis) {
+      lenis.scrollTo('#couple', { duration: 1.2 });
+    } else {
+      document.getElementById('couple')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <div
+      id="hero"
       ref={sectionRef}
-      className="relative min-h-[100dvh] flex flex-col items-center justify-between px-3 pt-14 pb-8 sm:px-4 sm:pt-16 sm:pb-10 overflow-hidden bg-[#FFF8EC]"
+      className="relative min-h-[100dvh] flex flex-col items-center justify-between px-3 pt-12 pb-6 sm:px-4 sm:pt-14 sm:pb-8 overflow-hidden bg-[#FFF8EC]"
       style={{
         backgroundImage:
-          'radial-gradient(circle at 50% 20%, rgba(246,233,210,0.8) 0%, rgba(255,248,236,1) 100%)',
+          'radial-gradient(circle at 50% 20%, rgba(246,233,210,0.85) 0%, rgba(255,248,236,1) 100%)',
       }}
     >
       {/* Drifting Petals Overlay */}
@@ -84,17 +92,17 @@ export default function Hero() {
         <PetalParticles />
       </div>
 
-      {/* Top Hanging Mango Leaf Garland with Brass Bells (Screen 2 Top) */}
+      {/* Top Hanging Mango Leaf Garland with Golden Bells (Matches Screen 2 Top) */}
       <div className="absolute top-0 inset-x-0 pointer-events-none z-20 flex justify-center">
         <svg
-          className="w-full max-w-[500px] h-16 sm:h-20 text-[#2F5D3A] overflow-visible drop-shadow-sm"
-          viewBox="0 0 500 80"
+          className="w-full max-w-[500px] h-14 sm:h-[72px] text-[#2F5D3A] overflow-visible drop-shadow-sm"
+          viewBox="0 0 500 70"
           fill="none"
           aria-hidden="true"
         >
           {/* Main Rope Garland */}
           <path
-            d="M 0 5 Q 125 25, 250 25 Q 375 25, 500 5"
+            d="M 0 5 Q 125 22, 250 22 Q 375 22, 500 5"
             stroke="#B5532E"
             strokeWidth="2.5"
             strokeDasharray="4 2"
@@ -102,112 +110,114 @@ export default function Hero() {
 
           {/* Hanging Mango Leaves (Aam Pata) */}
           {[20, 60, 100, 140, 180, 220, 260, 300, 340, 380, 420, 460].map((x, i) => (
-            <g key={x} transform={`translate(${x}, ${15 + Math.sin(i * 0.5) * 6})`}>
-              {/* Leaf */}
+            <g key={x} transform={`translate(${x}, ${12 + Math.sin(i * 0.5) * 5})`}>
               <path
-                d="M 0 0 C 8 18, 14 35, 0 55 C -14 35, -8 18, 0 0 Z"
+                d="M 0 0 C 8 16, 14 30, 0 48 C -14 30, -8 16, 0 0 Z"
                 fill="#2F5D3A"
                 opacity="0.9"
               />
-              <path d="M 0 0 L 0 50" stroke="#487A54" strokeWidth="1" />
+              <path d="M 0 0 L 0 42" stroke="#487A54" strokeWidth="1" />
             </g>
           ))}
 
           {/* Hanging Golden Brass Bells (Ghonta) */}
           {[80, 250, 420].map((bx) => (
-            <g key={bx} transform={`translate(${bx}, 22)`}>
-              <line x1="0" y1="0" x2="0" y2="28" stroke="#F2B705" strokeWidth="1.5" />
-              {/* Bell shape */}
+            <g key={bx} transform={`translate(${bx}, 18)`}>
+              <line x1="0" y1="0" x2="0" y2="24" stroke="#F2B705" strokeWidth="1.5" />
               <path
-                d="M -6 28 C -7 34, -10 38, -10 40 L 10 40 C 10 38, 7 34, 6 28 Z"
+                d="M -5 24 C -6 29, -8 32, -8 34 L 8 34 C 8 32, 6 29, 5 24 Z"
                 fill="#F2B705"
                 stroke="#B5532E"
                 strokeWidth="1"
               />
-              <circle cx="0" cy="42" r="2.5" fill="#B5532E" />
+              <circle cx="0" cy="36" r="2" fill="#B5532E" />
             </g>
           ))}
         </svg>
       </div>
 
-      {/* Main Content (Centered max-w-md matching mobile card) */}
-      <div className="relative z-20 w-full max-w-[420px] mx-auto flex flex-col items-center text-center mt-3 sm:mt-5">
-        {/* Header Texts */}
-        <div ref={textRef} className="px-3">
-          {/* Main Invitation Title */}
-          <h1 className="font-display-bn text-2xl sm:text-3xl md:text-4xl text-[#B3172F] font-bold leading-snug drop-shadow-sm">
-            {locale === 'bn'
-              ? 'আমাদের বিবাহে আপনাকে সাদর আমন্ত্রণ'
-              : 'We Cordially Invite You to Our Wedding'}
+      {/* Main Content (Centered max-w-[420px] matching Screen 2) */}
+      <div className="relative z-20 w-full max-w-[410px] mx-auto flex flex-col items-center text-center mt-2 sm:mt-3">
+        {/* Header Texts (Screen 2 Typography) */}
+        <div ref={textRef} className="px-2">
+          {/* Main Invitation Title (3 stacked lines matching image) */}
+          <h1 className="font-display-bn text-3xl sm:text-4xl text-[#B3172F] font-bold leading-tight drop-shadow-sm">
+            {locale === 'bn' ? (
+              <>
+                আমাদের বিবাহে
+                <br />
+                আপনাকে
+                <br />
+                সাদর আমন্ত্রণ
+              </>
+            ) : (
+              <>
+                We Cordially Invite You
+                <br />
+                to Our Wedding
+              </>
+            )}
           </h1>
 
-          {/* Subtitle with names */}
-          <div className="flex items-center justify-center gap-1.5 mt-1.5 text-[#3A0D14]/80 text-xs sm:text-sm md:text-base font-serif italic">
-            <span className="text-[#B5532E] select-none">❧</span>
-            <p>
-              {locale === 'bn' ? (
-                <>
-                  শুভ বিবাহে সানন্দ নিমন্ত্রণ:{' '}
-                  <span className="font-bold text-[#B3172F] not-italic font-display-bn text-base sm:text-lg">
-                    {brideName} &amp; {groomName}
-                  </span>
-                </>
-              ) : (
-                <>
-                  We are delighted to invite you to the wedding of{' '}
-                  <span className="font-bold text-[#B3172F] not-italic">
-                    {event.bride.name} &amp; {event.groom.name}
-                  </span>
-                </>
-              )}
-            </p>
-            <span className="text-[#B5532E] select-none">❧</span>
+          {/* Subtitle in English with names in cursive */}
+          <div className="flex items-center justify-center gap-1.5 mt-2 text-[#3A0D14]/85 text-xs sm:text-sm font-serif">
+            <span className="text-[#B5532E] select-none text-xs">❧</span>
+            <div className="flex flex-col items-center">
+              <p className="italic text-[#6F0E20]">
+                {locale === 'bn' ? 'We are delighted to invite you to the wedding of' : 'আমাদের শুভ বিবাহে সাদর আমন্ত্রণ'}
+              </p>
+              <p className="font-display italic text-sm sm:text-base font-bold text-[#B3172F] mt-0.5">
+                {event.bride.name} &amp; {event.groom.name}
+              </p>
+            </div>
+            <span className="text-[#B5532E] select-none text-xs">❧</span>
           </div>
         </div>
 
-        {/* Central Couple Artwork (Jhilik & Koushik) */}
-        <div
-          ref={imageRef}
-          className="relative w-full aspect-[4/5] max-w-[300px] sm:max-w-[350px] max-h-[38vh] sm:max-h-[46vh] mt-3 rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border-3 border-[#F6E9D2] bg-[#F6E9D2]"
-        >
-          <Image
-            src="/images/couple-hero.webp"
-            alt="Jhilik and Koushik in traditional Bengali wedding attire"
-            fill
-            sizes="(max-width: 430px) 90vw, 350px"
-            className="object-cover object-top"
-            priority
-          />
-          <div className="absolute inset-0 ring-1 ring-inset ring-[#B3172F]/20 pointer-events-none rounded-2xl sm:rounded-3xl" />
+        {/* Central Couple Artwork with Down Button Anchor */}
+        <div className="relative w-full max-w-[320px] sm:max-w-[360px] mt-2.5">
+          <div ref={imageRef} className="w-full">
+            <PhotoHolder
+              src={event.photos.hero}
+              alt={`${event.bride.name} & ${event.groom.name}`}
+              aspect="aspect-[4/5]"
+              shape="rounded"
+              labelBn="ঝিলিক ও কৌশিকের ছবি"
+              labelEn="Jhilik & Koushik's Photo"
+              hintBn="দম্পতির ছবির স্থান (৪:৫)"
+              hintEn="Couple Photo Holder (4:5)"
+              className="max-h-[38vh] sm:max-h-[44vh]"
+              priority={true}
+            />
+          </div>
+
+          {/* White Circular Scroll Down Button (Matches Screen 2 Chevron) */}
+          <motion.button
+            type="button"
+            onClick={scrollToNext}
+            aria-label={t('scrollDown')}
+            className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-[#FFF8EC] border border-[#B3172F]/30 shadow-md flex items-center justify-center text-[#B3172F] hover:bg-[#F6E9D2] active:scale-95 transition-all z-20 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#B3172F]"
+            animate={{ y: [0, 4, 0] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <svg
+              className="w-4 h-4 text-[#B3172F]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M19 9l-7 7-7-7" />
+            </svg>
+          </motion.button>
         </div>
 
-        {/* Live Countdown Timer */}
-        <div className="w-full max-w-sm mt-4 sm:mt-5 px-1">
+        {/* Live Countdown Timer (Compact & High-Contrast) */}
+        <div className="w-full max-w-sm mt-7 px-1">
           <Countdown />
         </div>
-
-        {/* Down Scroll Indicator */}
-        <motion.div
-          className="mt-4 sm:mt-5 flex flex-col items-center text-[#B3172F]/70 cursor-pointer min-h-[44px] min-w-[44px] justify-center"
-          animate={{ y: [0, 5, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-          onClick={() => {
-            document.getElementById('couple')?.scrollIntoView({ behavior: 'smooth' });
-          }}
-          aria-label={t('scrollDown')}
-        >
-          <svg
-            className="w-5 h-5 sm:w-6 sm:h-6 text-[#B3172F]"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M19 9l-7 7-7-7" />
-          </svg>
-        </motion.div>
       </div>
     </div>
   );
