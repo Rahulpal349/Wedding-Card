@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useTranslations, useLocale } from 'next-intl';
 import { event } from '../../../content/event';
-import JoraMachSVG from '@/components/motifs/JoraMach';
 import ShareButton from '@/components/ui/ShareButton';
 import LiveStreamBanner from '@/components/ui/LiveStreamBanner';
 
@@ -49,16 +48,6 @@ export default function Footer() {
           <span className="text-lg">❖</span>
           <span className="text-sm">✤</span>
           <span className="w-8 h-[1px] bg-[#FFF8EC]/40" />
-        </div>
-
-        {/* Small White Heart */}
-        <div className="my-2 text-[#FFF8EC]/90 text-lg" aria-hidden="true">
-          ♡
-        </div>
-
-        {/* Red Folk Jora Mach (Twin Fish) Motif */}
-        <div className="w-28 h-[72px] text-[#FFF8EC]/90 my-3 drop-shadow-md">
-          <JoraMachSVG />
         </div>
 
         {/* Live Stream Banner (Automated for 25 Nov) */}
