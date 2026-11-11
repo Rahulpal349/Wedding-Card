@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslations } from 'next-intl';
-import { downloadICS, getGoogleCalendarUrl, CalendarEvent } from '@/lib/calendar';
+import { downloadICS, getGoogleCalendarUrl, generateICS, CalendarEvent } from '@/lib/calendar';
 
 interface CalendarLinksProps {
   title: string;
@@ -41,13 +41,30 @@ export default function CalendarLinks({
     setMounted(true);
   }, []);
 
-  const eventData: CalendarEvent = {
-    title,
-    start: new Date(start),
-    end: new Date(end),
-    location,
-    description,
-  };
+  const eventData: CalendarEvent = useMemo(
+    () => ({
+      title,
+      start: new Date(start),
+      end: new Date(end),
+      location,
+      description,
+    }),
+    [title, start, end, location, description],
+  );
+
+  const googleCalendarUrl = useMemo(
+    () => getGoogleCalendarUrl(eventData),
+    [eventData],
+  );
+
+  const icsDataUri = useMemo(() => {
+    try {
+      const content = generateICS(eventData);
+      return `data:text/calendar;charset=utf-8,${encodeURIComponent(content)}`;
+    } catch {
+      return '#';
+    }
+  }, [eventData]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -72,15 +89,17 @@ export default function CalendarLinks({
     };
   }, [isOpen]);
 
-  const handleDownloadICS = () => {
-    downloadICS(eventData);
-    setIsOpen(false);
+  const handleDownloadICS = (e?: React.MouseEvent) => {
+    try {
+      downloadICS(eventData);
+    } catch (err) {
+      console.error(err);
+    }
+    setTimeout(() => setIsOpen(false), 250);
   };
 
-  const handleGoogleCalendar = () => {
-    const url = getGoogleCalendarUrl(eventData);
-    window.open(url, '_blank', 'noopener,noreferrer');
-    setIsOpen(false);
+  const handleGoogleCalendar = (e?: React.MouseEvent) => {
+    setTimeout(() => setIsOpen(false), 250);
   };
 
   // Determine button styling based on variant
@@ -197,44 +216,51 @@ export default function CalendarLinks({
             {/* Action Buttons */}
             <div className="w-full flex flex-col gap-2.5">
               {/* Google Calendar */}
-              <button
-                type="button"
+              <a
+                href={googleCalendarUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={handleGoogleCalendar}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl bg-white hover:bg-[#F6E9D2] border border-[#B3172F]/20 shadow-sm hover:shadow transition-all text-left min-h-[52px] cursor-pointer group"
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl bg-white hover:bg-[#F6E9D2] active:scale-[0.98] border border-[#B3172F]/20 shadow-sm hover:shadow transition-all text-left min-h-[52px] cursor-pointer group no-underline"
               >
                 <span className="w-9 h-9 rounded-xl bg-[#4285F4]/10 flex items-center justify-center text-xl shrink-0">
                   📅
                 </span>
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <p className="font-bold text-sm text-[#3A0D14] group-hover:text-[#B3172F] leading-tight">
                     Google Calendar
                   </p>
-                  <p className="text-[11px] text-[#6F0E20]/75">
+                  <p className="text-[11px] text-[#6F0E20]/75 leading-tight mt-0.5">
                     Open &amp; save to your Google Calendar
                   </p>
                 </div>
-                <span className="text-[#B3172F] text-base font-bold transition-transform group-hover:translate-x-0.5">→</span>
-              </button>
+                <span className="text-[#B3172F] text-base font-bold transition-transform group-hover:translate-x-0.5 shrink-0">
+                  →
+                </span>
+              </a>
 
               {/* Apple / Outlook */}
-              <button
-                type="button"
+              <a
+                href={icsDataUri}
+                download="jhilik-koushik-wedding.ics"
                 onClick={handleDownloadICS}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl bg-white hover:bg-[#F6E9D2] border border-[#B3172F]/20 shadow-sm hover:shadow transition-all text-left min-h-[52px] cursor-pointer group"
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl bg-white hover:bg-[#F6E9D2] active:scale-[0.98] border border-[#B3172F]/20 shadow-sm hover:shadow transition-all text-left min-h-[52px] cursor-pointer group no-underline"
               >
                 <span className="w-9 h-9 rounded-xl bg-[#6F0E20]/10 flex items-center justify-center text-xl shrink-0">
                   🍏
                 </span>
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <p className="font-bold text-sm text-[#3A0D14] group-hover:text-[#B3172F] leading-tight">
                     Apple / Outlook / Phone
                   </p>
-                  <p className="text-[11px] text-[#6F0E20]/75">
+                  <p className="text-[11px] text-[#6F0E20]/75 leading-tight mt-0.5">
                     Download .ics event file
                   </p>
                 </div>
-                <span className="text-[#B3172F] text-base font-bold transition-transform group-hover:translate-x-0.5">→</span>
-              </button>
+                <span className="text-[#B3172F] text-base font-bold transition-transform group-hover:translate-x-0.5 shrink-0">
+                  →
+                </span>
+              </a>
             </div>
           </div>
         </div>,
@@ -259,11 +285,13 @@ export default function CalendarLinks({
           </div>
 
           {/* Google Calendar option */}
-          <button
+          <a
             role="menuitem"
-            type="button"
+            href={googleCalendarUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={handleGoogleCalendar}
-            className="flex items-center w-full px-4 py-2.5 text-xs sm:text-sm font-medium text-[#3A0D14] hover:bg-[#F6E9D2] hover:text-[#B3172F] transition-colors text-left min-h-[44px] cursor-pointer"
+            className="flex items-center w-full px-4 py-2.5 text-xs sm:text-sm font-medium text-[#3A0D14] hover:bg-[#F6E9D2] hover:text-[#B3172F] transition-colors text-left min-h-[44px] cursor-pointer no-underline"
           >
             <span className="w-6 h-6 rounded-full bg-[#B3172F]/10 flex items-center justify-center mr-2.5 shrink-0 text-[#B3172F]">
               📅
@@ -272,14 +300,15 @@ export default function CalendarLinks({
               <span className="font-semibold text-xs sm:text-sm">{t('googleCalendar')}</span>
               <span className="text-[10px] text-[#6F0E20]/70">Google Calendar</span>
             </div>
-          </button>
+          </a>
 
           {/* Apple Calendar / Outlook / ICS option */}
-          <button
+          <a
             role="menuitem"
-            type="button"
+            href={icsDataUri}
+            download="wedding-event.ics"
             onClick={handleDownloadICS}
-            className="flex items-center w-full px-4 py-2.5 text-xs sm:text-sm font-medium text-[#3A0D14] hover:bg-[#F6E9D2] hover:text-[#B3172F] transition-colors text-left min-h-[44px] cursor-pointer"
+            className="flex items-center w-full px-4 py-2.5 text-xs sm:text-sm font-medium text-[#3A0D14] hover:bg-[#F6E9D2] hover:text-[#B3172F] transition-colors text-left min-h-[44px] cursor-pointer no-underline"
           >
             <span className="w-6 h-6 rounded-full bg-[#B3172F]/10 flex items-center justify-center mr-2.5 shrink-0 text-[#B3172F]">
               🍏
@@ -288,7 +317,7 @@ export default function CalendarLinks({
               <span className="font-semibold text-xs sm:text-sm">{t('downloadICS')}</span>
               <span className="text-[10px] text-[#6F0E20]/70">Apple / Outlook / Phone (.ics)</span>
             </div>
-          </button>
+          </a>
         </div>
       )}
     </div>

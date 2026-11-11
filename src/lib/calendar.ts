@@ -71,8 +71,14 @@ export function downloadICS(event: CalendarEvent): void {
   link.download = `${safeFilename}.ics`;
   document.body.appendChild(link);
   link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
+
+  // Delay cleanup to prevent cancelling download in modern browsers
+  setTimeout(() => {
+    if (document.body.contains(link)) {
+      document.body.removeChild(link);
+    }
+    URL.revokeObjectURL(url);
+  }, 2000);
 }
 
 function formatDateGoogle(date: Date): string {
