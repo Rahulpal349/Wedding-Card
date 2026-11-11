@@ -47,15 +47,15 @@ export default function PhotoHolder({
     shape === 'arch'
       ? 'rounded-t-full rounded-b-2xl border-[3px] border-[#B3172F] shadow-xl overflow-hidden'
       : shape === 'rounded'
-      ? 'rounded-2xl sm:rounded-3xl border border-[#B3172F]/25 shadow-xl overflow-hidden'
-      : 'rounded-xl border border-[#B5532E]/20 shadow-md overflow-hidden';
+        ? 'rounded-2xl sm:rounded-3xl border border-[#B3172F]/25 shadow-xl overflow-hidden'
+        : 'rounded-xl border border-[#B5532E]/20 shadow-md overflow-hidden';
 
   const placeholderShapeClass =
     shape === 'arch'
       ? 'rounded-t-full rounded-b-2xl border-[3px] border-[#B3172F] shadow-xl overflow-hidden'
       : shape === 'rounded'
-      ? 'rounded-2xl sm:rounded-3xl border-2 border-dashed border-[#B3172F]/35 shadow-md overflow-hidden'
-      : 'rounded-xl border border-dashed border-[#B5532E]/35 shadow-sm overflow-hidden';
+        ? 'rounded-2xl sm:rounded-3xl border-2 border-dashed border-[#B3172F]/35 shadow-md overflow-hidden'
+        : 'rounded-xl border border-dashed border-[#B5532E]/35 shadow-sm overflow-hidden';
 
   const label = locale === 'bn' ? labelBn || 'ছবির স্থান' : labelEn || 'Photo Placeholder';
   const hint = locale === 'bn' ? hintBn || 'ছবি যুক্ত করুন' : hintEn || 'Add Photo';
