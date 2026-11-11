@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { downloadICS, getGoogleCalendarUrl, generateICS, CalendarEvent } from '@/lib/calendar';
 
 interface CalendarLinksProps {
@@ -33,6 +33,7 @@ export default function CalendarLinks({
   buttonClassName,
 }: CalendarLinksProps) {
   const t = useTranslations('ceremonies');
+  const locale = useLocale();
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -52,10 +53,47 @@ export default function CalendarLinks({
     [title, start, end, location, description],
   );
 
+  const formattedDate = useMemo(() => {
+    try {
+      const d = eventData.start;
+      return d.toLocaleDateString(locale === 'bn' ? 'bn-BD' : 'en-US', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      });
+    } catch {
+      return locale === 'bn' ? 'বুধবার, ২৫ নভেম্বর ২০২৬' : 'Wednesday, 25 November 2026';
+    }
+  }, [eventData.start, locale]);
+
+  const formattedTime = useMemo(() => {
+    try {
+      const d = eventData.start;
+      return d.toLocaleTimeString(locale === 'bn' ? 'bn-BD' : 'en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+      });
+    } catch {
+      return '';
+    }
+  }, [eventData.start, locale]);
+
   const googleCalendarUrl = useMemo(
     () => getGoogleCalendarUrl(eventData),
     [eventData],
   );
+
+  const safeFilename = useMemo(() => {
+    return (
+      title
+        .replace(/[^\w\s-]/g, '')
+        .trim()
+        .replace(/\s+/g, '-')
+        .toLowerCase() || 'wedding-event'
+    );
+  }, [title]);
 
   const icsDataUri = useMemo(() => {
     try {
@@ -117,24 +155,13 @@ export default function CalendarLinks({
     return 'inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg bg-[#B3172F] text-[#FFF8EC] text-sm font-medium hover:bg-[#6F0E20] transition-colors min-h-[44px] min-w-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2B705] shadow-sm cursor-pointer select-none';
   };
 
-  // Dropdown alignment classes
-  const getMenuAlignmentClass = () => {
-    if (align === 'center') {
-      return 'left-1/2 -translate-x-1/2';
-    }
-    if (align === 'right') {
-      return 'right-0 sm:right-0 left-auto';
-    }
-    return 'left-0';
-  };
-
   return (
     <div className={`relative inline-block text-left ${className}`} ref={dropdownRef}>
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
-        aria-haspopup="true"
+        aria-haspopup="dialog"
         className={getButtonClass()}
       >
         {/* Calendar Icon */}
@@ -169,17 +196,17 @@ export default function CalendarLinks({
         </svg>
       </button>
 
-      {/* Modal Dialog for Hero Variant (Never gets clipped by parent overflow!) */}
-      {isOpen && variant === 'hero' && mounted && createPortal(
+      {/* Universal Modal Dialog via Portal (Never gets clipped or overlapped by stacking contexts) */}
+      {isOpen && mounted && createPortal(
         <div
           className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn"
           onClick={() => setIsOpen(false)}
           role="dialog"
           aria-modal="true"
-          aria-label={label || t('addToCalendar')}
+          aria-label={label || title || t('addToCalendar')}
         >
           <div
-            className="relative w-full max-w-[340px] sm:max-w-sm rounded-3xl bg-[#FFF8EC] border-2 border-[#F2B705] shadow-2xl p-6 text-center flex flex-col items-center select-none"
+            className="relative w-full max-w-[340px] sm:max-w-sm rounded-3xl bg-[#FFF8EC] border-2 border-[#F2B705] shadow-2xl p-5 sm:p-6 text-center flex flex-col items-center select-none"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -203,18 +230,21 @@ export default function CalendarLinks({
             </div>
 
             {/* Title & Date */}
-            <h3 className="font-display-bn text-2xl text-[#6F0E20] font-bold">
-              {label || 'SAVE THE DATE'}
+            <h3 className="font-display-bn text-xl sm:text-2xl text-[#6F0E20] font-bold line-clamp-2 px-2">
+              {variant === 'hero' ? (label || 'SAVE THE DATE') : (title || label || t('addToCalendar'))}
             </h3>
-            <p className="text-sm font-semibold text-[#3A0D14] mt-0.5">
-              Wednesday, 25 November 2026
+
+            <p className="text-sm font-semibold text-[#3A0D14] mt-1">
+              {formattedDate}
             </p>
-            <p className="text-xs text-[#B5532E] font-serif mb-4">
-              ২৫ নভেম্বর ২০২৬ • সন্ধ্যা ৭:০০ থেকে
-            </p>
+            {formattedTime && (
+              <p className="text-xs text-[#B5532E] font-serif mt-0.5 mb-4 font-medium">
+                ⏰ {formattedTime} {locale === 'bn' ? 'থেকে' : 'onwards'}
+              </p>
+            )}
 
             {/* Action Buttons */}
-            <div className="w-full flex flex-col gap-2.5">
+            <div className="w-full flex flex-col gap-2.5 mt-1">
               {/* Google Calendar */}
               <a
                 href={googleCalendarUrl}
@@ -231,7 +261,7 @@ export default function CalendarLinks({
                     Google Calendar
                   </p>
                   <p className="text-[11px] text-[#6F0E20]/75 leading-tight mt-0.5">
-                    Open &amp; save to your Google Calendar
+                    {locale === 'bn' ? 'গুগল ক্যালেন্ডারে যুক্ত করুন' : 'Open & save to your Google Calendar'}
                   </p>
                 </div>
                 <span className="text-[#B3172F] text-base font-bold transition-transform group-hover:translate-x-0.5 shrink-0">
@@ -242,7 +272,7 @@ export default function CalendarLinks({
               {/* Apple / Outlook */}
               <a
                 href={icsDataUri}
-                download="jhilik-koushik-wedding.ics"
+                download={`${safeFilename}.ics`}
                 onClick={handleDownloadICS}
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl bg-white hover:bg-[#F6E9D2] active:scale-[0.98] border border-[#B3172F]/20 shadow-sm hover:shadow transition-all text-left min-h-[52px] cursor-pointer group no-underline"
               >
@@ -254,7 +284,7 @@ export default function CalendarLinks({
                     Apple / Outlook / Phone
                   </p>
                   <p className="text-[11px] text-[#6F0E20]/75 leading-tight mt-0.5">
-                    Download .ics event file
+                    {locale === 'bn' ? '.ics ক্যালেন্ডার ফাইল ডাউনলোড করুন' : 'Download .ics event file'}
                   </p>
                 </div>
                 <span className="text-[#B3172F] text-base font-bold transition-transform group-hover:translate-x-0.5 shrink-0">
@@ -265,60 +295,6 @@ export default function CalendarLinks({
           </div>
         </div>,
         document.body,
-      )}
-
-      {/* In-place Dropdown for non-hero variants */}
-      {isOpen && variant !== 'hero' && (
-        <div
-          role="menu"
-          aria-orientation="vertical"
-          className={`absolute mt-2.5 w-60 rounded-2xl bg-[#FFF8EC] border-2 border-[#B3172F]/30 shadow-2xl z-40 py-2 focus:outline-none animate-fadeIn ${getMenuAlignmentClass()}`}
-        >
-          {/* Header Label inside popup */}
-          <div className="px-4 py-1.5 border-b border-[#B5532E]/15 mb-1">
-            <p className="text-[11px] font-bold text-[#6F0E20] uppercase tracking-wider">
-              {label || t('addToCalendar')}
-            </p>
-            <p className="text-[10px] text-[#B5532E]/80">
-              ২৫ নভেম্বর ২০২৬ • 25 Nov 2026
-            </p>
-          </div>
-
-          {/* Google Calendar option */}
-          <a
-            role="menuitem"
-            href={googleCalendarUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={handleGoogleCalendar}
-            className="flex items-center w-full px-4 py-2.5 text-xs sm:text-sm font-medium text-[#3A0D14] hover:bg-[#F6E9D2] hover:text-[#B3172F] transition-colors text-left min-h-[44px] cursor-pointer no-underline"
-          >
-            <span className="w-6 h-6 rounded-full bg-[#B3172F]/10 flex items-center justify-center mr-2.5 shrink-0 text-[#B3172F]">
-              📅
-            </span>
-            <div className="flex flex-col">
-              <span className="font-semibold text-xs sm:text-sm">{t('googleCalendar')}</span>
-              <span className="text-[10px] text-[#6F0E20]/70">Google Calendar</span>
-            </div>
-          </a>
-
-          {/* Apple Calendar / Outlook / ICS option */}
-          <a
-            role="menuitem"
-            href={icsDataUri}
-            download="wedding-event.ics"
-            onClick={handleDownloadICS}
-            className="flex items-center w-full px-4 py-2.5 text-xs sm:text-sm font-medium text-[#3A0D14] hover:bg-[#F6E9D2] hover:text-[#B3172F] transition-colors text-left min-h-[44px] cursor-pointer no-underline"
-          >
-            <span className="w-6 h-6 rounded-full bg-[#B3172F]/10 flex items-center justify-center mr-2.5 shrink-0 text-[#B3172F]">
-              🍏
-            </span>
-            <div className="flex flex-col">
-              <span className="font-semibold text-xs sm:text-sm">{t('downloadICS')}</span>
-              <span className="text-[10px] text-[#6F0E20]/70">Apple / Outlook / Phone (.ics)</span>
-            </div>
-          </a>
-        </div>
       )}
     </div>
   );
