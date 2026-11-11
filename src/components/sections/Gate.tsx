@@ -8,29 +8,50 @@ import { event } from '../../../content/event';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { playAuspiciousChime, playWeddingMusic, pauseWeddingMusic } from '@/lib/audio';
 
+function toBengaliDigits(num: number): string {
+  const bn = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+  return num
+    .toString()
+    .split('')
+    .map((d) => bn[parseInt(d, 10)] ?? d)
+    .join('');
+}
+
 export default function Gate() {
   const [isOpen, setIsOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [soundOn, setSoundOn] = useState(true);
+  const [countdown, setCountdown] = useState(8);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const leftDoorRef = useRef<HTMLDivElement>(null);
   const rightDoorRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const autoTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const openCalledRef = useRef(false);
+
   const t = useTranslations('gate');
   const locale = useLocale();
   const prefersReducedMotion = useReducedMotion();
 
-  // Restore open state if gate was already opened in this session
+  // Restore open state if gate was already opened in this session, check sound pref
   useEffect(() => {
     try {
       if (sessionStorage.getItem('wedding-gate-opened') === 'true') {
         setIsOpen(true);
         setIsHidden(true);
       }
+      const savedSound = localStorage.getItem('wedding-sound-enabled');
+      if (savedSound === 'false') {
+        setSoundOn(false);
+      } else {
+        setSoundOn(true);
+      }
     } catch {}
   }, []);
 
+  // Entrance animations for Gate content
   useEffect(() => {
     if (isOpen || isHidden) return;
 
@@ -57,8 +78,16 @@ export default function Gate() {
     }
   }, [isOpen, isHidden, prefersReducedMotion]);
 
+  // Main Open Gate Handler
   const handleOpen = useCallback(() => {
-    if (isOpen) return;
+    if (openCalledRef.current || isOpen) return;
+    openCalledRef.current = true;
+
+    if (autoTimerRef.current) {
+      clearInterval(autoTimerRef.current);
+      autoTimerRef.current = null;
+    }
+
     setIsOpen(true);
     try {
       sessionStorage.setItem('wedding-gate-opened', 'true');
@@ -113,89 +142,119 @@ export default function Gate() {
     }, 1400);
   }, [isOpen, prefersReducedMotion, soundOn]);
 
+  // 8-Second Auto-Open Timer if user does not click
+  useEffect(() => {
+    if (isOpen || isHidden || openCalledRef.current) return;
+
+    autoTimerRef.current = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          if (autoTimerRef.current) {
+            clearInterval(autoTimerRef.current);
+            autoTimerRef.current = null;
+          }
+          handleOpen();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => {
+      if (autoTimerRef.current) {
+        clearInterval(autoTimerRef.current);
+        autoTimerRef.current = null;
+      }
+    };
+  }, [isOpen, isHidden, handleOpen]);
+
+  // Fallback: Ensure music starts on the very first touch/click/scroll if browser restricted auto-play
+  useEffect(() => {
+    if (!soundOn) return;
+
+    const handleFirstGesture = () => {
+      if (soundOn) {
+        playWeddingMusic();
+      }
+    };
+
+    window.addEventListener('click', handleFirstGesture, { once: true });
+    window.addEventListener('touchstart', handleFirstGesture, { once: true });
+    window.addEventListener('scroll', handleFirstGesture, { once: true });
+
+    return () => {
+      window.removeEventListener('click', handleFirstGesture);
+      window.removeEventListener('touchstart', handleFirstGesture);
+      window.removeEventListener('scroll', handleFirstGesture);
+    };
+  }, [soundOn]);
+
   if (isHidden) return null;
 
   return (
     <div
       ref={containerRef}
       className="fixed inset-0 z-50 overflow-hidden flex items-center justify-center"
+      role="dialog"
+      aria-modal="true"
       aria-label={t('title')}
     >
-      {/* Split Doors Background */}
+      {/* Left Door */}
       <div
         ref={leftDoorRef}
-        className="absolute inset-y-0 left-0 w-1/2 bg-[#5A0A19] overflow-hidden"
+        className="absolute top-0 left-0 w-1/2 h-full bg-[#6F0E20] border-r-2 border-[#F2B705]/40 shadow-2xl flex items-center justify-end"
         style={{
           backgroundImage:
-            'radial-gradient(ellipse at 100% 50%, rgba(179,23,47,0.35) 0%, rgba(58,13,20,0.95) 100%)',
+            'radial-gradient(circle at 100% 50%, rgba(179, 23, 47, 0.4) 0%, rgba(111, 14, 32, 1) 70%)',
         }}
-      />
+      >
+        <div className="absolute right-3 sm:right-6 top-0 bottom-0 w-12 border-r border-dashed border-[#F2B705]/20 pointer-events-none" />
+      </div>
+
+      {/* Right Door */}
       <div
         ref={rightDoorRef}
-        className="absolute inset-y-0 right-0 w-1/2 bg-[#5A0A19] overflow-hidden"
+        className="absolute top-0 right-0 w-1/2 h-full bg-[#6F0E20] border-l-2 border-[#F2B705]/40 shadow-2xl flex items-center justify-start"
         style={{
           backgroundImage:
-            'radial-gradient(ellipse at 0% 50%, rgba(179,23,47,0.35) 0%, rgba(58,13,20,0.95) 100%)',
+            'radial-gradient(circle at 0% 50%, rgba(179, 23, 47, 0.4) 0%, rgba(111, 14, 32, 1) 70%)',
         }}
-      />
+      >
+        <div className="absolute left-3 sm:left-6 top-0 bottom-0 w-12 border-l border-dashed border-[#F2B705]/20 pointer-events-none" />
+      </div>
 
-      {/* Main Gate Card Container (matches Screen 1) */}
+      {/* Central Content Card */}
       <div
         ref={contentRef}
-        className="relative z-10 w-full max-w-[430px] h-full max-h-[920px] mx-auto flex flex-col justify-between items-center px-6 py-8 text-center text-[#FFF8EC]"
+        className="relative z-10 max-w-[340px] sm:max-w-md w-full mx-4 px-5 py-6 sm:py-8 flex flex-col items-center text-center select-none"
       >
-        {/* Top Ornate Arch & Folk Bird Crest */}
-        <div className="w-full flex flex-col items-center pt-2">
-          {/* Folk Bird Crest (Alpona linework) */}
-          <svg
-            className="w-20 h-16 text-[#FFF8EC]/90 drop-shadow-md mb-2"
-            viewBox="0 0 100 80"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            {/* Folk Bird Head & Beak */}
-            <path d="M 45 35 C 45 28, 52 22, 60 22 C 68 22, 73 28, 70 36 C 67 44, 58 48, 50 48 Z" />
-            <circle cx="62" cy="28" r="2" fill="currentColor" />
-            <path d="M 72 30 L 82 32 L 72 36" />
-            {/* Crown Feathers */}
-            <path d="M 58 22 C 55 14, 52 10, 50 8" />
-            <circle cx="50" cy="8" r="1.5" fill="currentColor" />
-            <path d="M 62 21 C 63 13, 65 8, 65 6" />
-            <circle cx="65" cy="6" r="1.5" fill="currentColor" />
-            <path d="M 66 23 C 71 16, 75 12, 78 11" />
-            <circle cx="78" cy="11" r="1.5" fill="currentColor" />
-            {/* Wing Feathers */}
-            <path d="M 48 38 C 38 25, 20 18, 10 22 C 16 32, 28 42, 45 46" />
-            <path d="M 43 42 C 34 33, 20 28, 14 32 C 20 40, 30 46, 42 47" />
-            {/* Tail */}
-            <path d="M 48 48 C 38 58, 26 65, 16 68 C 24 64, 34 58, 44 52" />
-            <path d="M 46 52 C 36 64, 25 72, 14 76 C 24 70, 36 62, 44 56" />
+        {/* Top Bird / Auspicious Bengali Emblem */}
+        <div className="w-14 h-14 sm:w-16 sm:h-16 text-[#FFF8EC] mb-2 drop-shadow-md">
+          <svg viewBox="0 0 100 100" fill="currentColor" className="w-full h-full opacity-90">
+            <path d="M50 15 C45 25, 35 30, 25 35 C35 40, 45 45, 50 65 C55 45, 65 40, 75 35 C65 30, 55 25, 50 15 Z" />
+            <circle cx="50" cy="18" r="4" fill="#F2B705" />
+            <circle cx="44" cy="12" r="2.5" fill="#FFF8EC" />
+            <circle cx="56" cy="12" r="2.5" fill="#FFF8EC" />
+            <path d="M 46 8 Q 50 4 54 8" stroke="#F2B705" strokeWidth="2" fill="none" />
           </svg>
+        </div>
 
-          {/* Heading: শুভ বিবাহ */}
-          <h1 className="font-display-bn text-4xl sm:text-5xl text-[#FFF8EC] tracking-wide drop-shadow-md">
-            শুভ বিবাহ
+        {/* Shuvo Bibaho Heading */}
+        <div className="space-y-1 mb-2">
+          <h1 className="font-display-bn text-3xl sm:text-4xl text-[#FFF8EC] font-bold tracking-wide drop-shadow-lg">
+            {locale === 'bn' ? 'শুভ বিবাহ' : 'Shubho Bibaha'}
           </h1>
-
-          {/* English Subtitle */}
-          <p className="font-display italic text-lg sm:text-xl text-[#FFF8EC]/90 mt-1">
-            The Wedding of
+          <p className="font-display text-xs sm:text-sm text-[#F2B705] tracking-widest uppercase font-semibold">
+            {locale === 'bn' ? 'The Wedding of' : 'Auspicious Bengali Wedding'}
           </p>
-
-          {/* Names */}
-          <h2 className="font-display-bn text-3xl sm:text-4xl text-[#FFF8EC] font-bold mt-2 tracking-wide drop-shadow-md">
-            {event.bride.nameBn} &amp; {event.groom.nameBn}
+          <h2 className="font-display-bn text-2xl sm:text-3xl text-[#FFF8EC] font-bold mt-1 drop-shadow-md">
+            {event.bride.nameBn} <span className="text-[#F2B705] font-serif">&amp;</span> {event.groom.nameBn}
           </h2>
-          <p className="font-display italic text-lg sm:text-xl text-[#FFF8EC]/90 mt-0.5">
+          <p className="font-display text-xs sm:text-sm text-[#FFF8EC]/90 italic font-medium">
             {event.bride.name} &amp; {event.groom.name}
           </p>
 
-          {/* Ornate Flourish Divider */}
-          <div className="flex items-center justify-center gap-3 my-3 text-[#FFF8EC]/70" aria-hidden="true">
+          <div className="flex items-center justify-center gap-2 pt-1 text-[#F2B705]/80">
             <span className="w-8 h-[1px] bg-gradient-to-r from-transparent to-[#FFF8EC]/60" />
             <span className="text-sm">✤</span>
             <span className="text-lg">❖</span>
@@ -217,8 +276,9 @@ export default function Gate() {
           <div className="absolute inset-0 bg-gradient-to-t from-[#3A0D14]/80 via-transparent to-transparent pointer-events-none" />
         </div>
 
-        {/* Interactive Action Controls (Open Invitation + Sound) */}
-        <div className="w-full flex flex-col items-center gap-3 pt-2">
+        {/* Interactive Action Controls (Open Invitation + 8s Auto-Open + Sound) */}
+        <div className="w-full flex flex-col items-center gap-2.5 pt-2">
+          {/* Main Open Button */}
           <button
             id="open-gate-btn"
             ref={buttonRef}
@@ -231,22 +291,50 @@ export default function Gate() {
             {locale === 'bn' ? 'আমন্ত্রণপত্র উন্মোচন করুন' : 'Open the Invitation'}
           </button>
 
+          {/* 8-Second Auto-Open Countdown Progress Bar & Hint */}
+          <div className="flex flex-col items-center gap-1 w-full max-w-[280px]">
+            <div className="w-full h-1 bg-[#FFF8EC]/20 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-[#F2B705] to-[#FFF8EC] rounded-full transition-all duration-1000 ease-linear"
+                style={{
+                  width: `${Math.max(0, Math.min(100, ((8 - countdown) / 8) * 100))}%`,
+                }}
+              />
+            </div>
+            <p className="text-[11px] text-[#FFF8EC]/75 font-serif tracking-wide">
+              {locale === 'bn'
+                ? `${toBengaliDigits(countdown)} সেকেন্ডে স্বয়ংক্রিয়ভাবে উন্মোচিত হবে`
+                : `Opening automatically in ${countdown}s`}
+            </p>
+          </div>
+
           {/* Sound Toggle */}
           <button
             type="button"
             onClick={() => {
               const next = !soundOn;
               setSoundOn(next);
+              try {
+                localStorage.setItem('wedding-sound-enabled', String(next));
+              } catch {}
               if (!next) {
                 pauseWeddingMusic();
+              } else {
+                playWeddingMusic();
               }
             }}
             aria-pressed={soundOn}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#3A0D14]/60 hover:bg-[#3A0D14]/90 text-[#FFF8EC]/90 text-xs sm:text-sm font-medium border border-[#FFF8EC]/15 transition-all min-h-[44px]"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#3A0D14]/60 hover:bg-[#3A0D14]/90 text-[#FFF8EC]/90 text-xs sm:text-sm font-medium border border-[#FFF8EC]/15 transition-all min-h-[40px] cursor-pointer"
           >
             {soundOn ? (
               <>
-                <svg className="w-4 h-4 text-[#F2B705]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <svg
+                  className="w-4 h-4 text-[#F2B705]"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
                   <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
                   <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
                 </svg>
@@ -254,7 +342,13 @@ export default function Gate() {
               </>
             ) : (
               <>
-                <svg className="w-4 h-4 text-[#FFF8EC]/60" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <svg
+                  className="w-4 h-4 text-[#FFF8EC]/60"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
                   <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
                   <line x1="23" y1="9" x2="17" y2="15" />
                   <line x1="17" y1="9" x2="23" y2="15" />
