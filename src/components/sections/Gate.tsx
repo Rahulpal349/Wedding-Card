@@ -8,20 +8,10 @@ import { event } from '../../../content/event';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { playAuspiciousChime, playWeddingMusic, pauseWeddingMusic } from '@/lib/audio';
 
-function toBengaliDigits(num: number): string {
-  const bn = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
-  return num
-    .toString()
-    .split('')
-    .map((d) => bn[parseInt(d, 10)] ?? d)
-    .join('');
-}
-
 export default function Gate() {
   const [isOpen, setIsOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [soundOn, setSoundOn] = useState(true);
-  const [countdown, setCountdown] = useState(8);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const leftDoorRef = useRef<HTMLDivElement>(null);
@@ -84,7 +74,7 @@ export default function Gate() {
     openCalledRef.current = true;
 
     if (autoTimerRef.current) {
-      clearInterval(autoTimerRef.current);
+      clearTimeout(autoTimerRef.current);
       autoTimerRef.current = null;
     }
 
@@ -149,27 +139,17 @@ export default function Gate() {
     }, 1400);
   }, [isOpen, prefersReducedMotion, soundOn]);
 
-  // 8-Second Auto-Open Timer if user does not click
+  // 8-Second Auto-Open Timer fallback if user does not click
   useEffect(() => {
     if (isOpen || isHidden || openCalledRef.current) return;
 
-    autoTimerRef.current = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          if (autoTimerRef.current) {
-            clearInterval(autoTimerRef.current);
-            autoTimerRef.current = null;
-          }
-          handleOpen();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    autoTimerRef.current = setTimeout(() => {
+      handleOpen();
+    }, 8000);
 
     return () => {
       if (autoTimerRef.current) {
-        clearInterval(autoTimerRef.current);
+        clearTimeout(autoTimerRef.current);
         autoTimerRef.current = null;
       }
     };
@@ -293,23 +273,6 @@ export default function Gate() {
           >
             {locale === 'bn' ? 'আমন্ত্রণপত্র উন্মোচন করুন' : 'Open the Invitation'}
           </button>
-
-          {/* 8-Second Auto-Open Countdown Progress Bar & Hint */}
-          <div className="flex flex-col items-center gap-1 w-full max-w-[280px]">
-            <div className="w-full h-1 bg-[#FFF8EC]/20 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-[#F2B705] to-[#FFF8EC] rounded-full transition-all duration-1000 ease-linear"
-                style={{
-                  width: `${Math.max(0, Math.min(100, ((8 - countdown) / 8) * 100))}%`,
-                }}
-              />
-            </div>
-            <p className="text-[11px] text-[#FFF8EC]/75 font-serif tracking-wide">
-              {locale === 'bn'
-                ? `${toBengaliDigits(countdown)} সেকেন্ডে স্বয়ংক্রিয়ভাবে উন্মোচিত হবে`
-                : `Opening automatically in ${countdown}s`}
-            </p>
-          </div>
 
           {/* Sound Toggle */}
           <button
