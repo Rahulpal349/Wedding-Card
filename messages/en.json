@@ -104,10 +104,16 @@
   "gallery": {
     "title": "Cherished Moments",
     "subtitle": "মধুর স্মৃতি",
+    "tagline": "MOMENTS TO TREASURE • একটি সোনালী অধ্যায়",
     "close": "Close Lightbox",
     "prev": "Previous Photo",
     "next": "Next Photo",
-    "viewPhoto": "View full photo"
+    "viewPhoto": "View full photo",
+    "viewFull": "View Full Size",
+    "autoPlayPlay": "Play Slideshow",
+    "autoPlayPause": "Pause Slideshow",
+    "swipeHint": "Swipe or click arrows to explore",
+    "memoryBadge": "Memory"
   },
   "footer": {
     "title": "Bidaay",

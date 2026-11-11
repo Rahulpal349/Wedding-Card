@@ -105,10 +105,16 @@
   "gallery": {
     "title": "মধুর স্মৃতি",
     "subtitle": "Cherished Moments",
+    "tagline": "একটি সোনালী অধ্যায় • MOMENTS TO TREASURE",
     "close": "বন্ধ করুন",
     "prev": "পূর্ববর্তী ছবি",
     "next": "পরবর্তী ছবি",
-    "viewPhoto": "ছবিটি বড় করে দেখুন"
+    "viewPhoto": "ছবিটি বড় করে দেখুন",
+    "viewFull": "বড় করে দেখুন",
+    "autoPlayPlay": "স্লাইড চালু করুন",
+    "autoPlayPause": "স্লাইড থামান",
+    "swipeHint": "আঙুল দিয়ে টেনে বা তীর চিহ্নে ক্লিক করে দেখুন",
+    "memoryBadge": "স্মৃতি"
   },
   "footer": {
     "title": "বিদায়",
