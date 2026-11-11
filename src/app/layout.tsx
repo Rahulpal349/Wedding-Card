@@ -15,11 +15,11 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
   metadataBase: new URL('https://jhilik-koushik.vercel.app'),
   openGraph: {
-    title: 'Jhilik Dey & Koushik Dey | শুভ বিবাহ — ২৫ নভেম্বর ২০২৬',
+    title: 'Jhilik Dey & Koushik Dutta | শুভ বিবাহ — ২৫ নভেম্বর ২০২৬',
     description:
       'দিলীপ দে ও মায়া দে-র কন্যা ঝিলিক এবং কৌশিকের শুভ বিবাহে সাদর আমন্ত্রণ — ২৫ নভেম্বর ২০২৬, অশ্বিনী রাজ কমিউনিটি হল, বেলিয়াতোড়, বাঁকুড়া।',
     images: ['/og-image.png'],
-    siteName: 'Jhilik Dey & Koushik Dey | শুভ বিবাহ',
+    siteName: 'Jhilik Dey & Koushik Dutta | শুভ বিবাহ',
     locale: 'bn_BD',
     type: 'website',
   },

@@ -7,8 +7,8 @@ export const event = {
     roleBn: "কনে",
   },
   groom: {
-    name: "Koushik Dey",
-    nameBn: "কৌশিক দে",
+    name: "Koushik Dutta",
+    nameBn: "কৌশিক দত্ত",
     role: "The Groom",
     roleBn: "বর",
   },
@@ -43,8 +43,8 @@ export const event = {
   welcome: {
     titleBn: "আমাদের বিবাহে আপনাকে সাদর আমন্ত্রণ",
     titleEn: "We are delighted to invite you to the wedding of",
-    subtitleBn: "ঝিলিক দে ও কৌশিক দে-র শুভ বিবাহে আপনার সানন্দ উপস্থিতি ও আশীর্বাদ একান্ত কাম্য।",
-    subtitleEn: "We are delighted to invite you to the wedding of Jhilik Dey & Koushik Dey",
+    subtitleBn: "ঝিলিক দে ও কৌশিক দত্ত-র শুভ বিবাহে আপনার সানন্দ উপস্থিতি ও আশীর্বাদ একান্ত কাম্য।",
+    subtitleEn: "We are delighted to invite you to the wedding of Jhilik Dey & Koushik Dutta",
   },
 
   // The Couple section (Screen 3)
