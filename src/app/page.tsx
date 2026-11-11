@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 export default function RootPage() {
   useEffect(() => {
-    const locale = localStorage.getItem('preferred-locale') || 'bn';
+    const locale = localStorage.getItem('preferred-locale') || 'en';
     window.location.replace(`/${locale}`);
   }, []);
 

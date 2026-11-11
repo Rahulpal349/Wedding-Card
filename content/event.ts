@@ -335,7 +335,7 @@ export const event = {
         tagBn: "বুধবার সকাল • ২৫ নভেম্বর",
         timeEn: "10:30 AM",
         timeBn: "সকাল ১০:৩০",
-        titleEn: "Gaye Holud & Snan",
+        titleEn: "Gaye Holud",
         titleBn: "গায়ে হলুদ",
         subtitleEn: "AUSPICIOUS TURMERIC CEREMONY",
         subtitleBn: "মাঙ্গলিক হলুদ অনুষ্ঠান",

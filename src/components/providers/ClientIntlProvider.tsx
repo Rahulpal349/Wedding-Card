@@ -11,7 +11,7 @@ interface LocaleContextType {
 }
 
 const LocaleContext = createContext<LocaleContextType>({
-  locale: 'bn',
+  locale: 'en',
   setLocale: () => {},
 });
 
