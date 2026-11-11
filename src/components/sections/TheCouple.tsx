@@ -53,7 +53,7 @@ export default function TheCouple() {
     <section
       id="couple"
       ref={sectionRef}
-      className="relative min-h-[100dvh] py-14 px-4 flex flex-col justify-between items-center bg-[#FFF8EC] text-[#3A0D14] overflow-hidden"
+      className="relative min-h-0 py-8 sm:py-12 px-4 flex flex-col items-center bg-[#FFF8EC] text-[#3A0D14] overflow-hidden"
       style={{
         backgroundImage:
           'radial-gradient(circle at 50% 30%, rgba(246,233,210,0.6) 0%, rgba(255,248,236,1) 100%)',
@@ -157,7 +157,7 @@ export default function TheCouple() {
       </div>
 
       {/* Bottom Scalloped Folk Border */}
-      <div className="w-full max-w-[420px] pt-3 border-t border-[#B3172F]/20 flex justify-center opacity-80">
+      <div className="w-full max-w-[420px] mt-4 sm:mt-6 pt-3 border-t border-[#B3172F]/20 flex justify-center opacity-80">
         <svg className="w-full h-4 text-[#B3172F]" viewBox="0 0 320 16" fill="currentColor">
           <pattern id="couple-scallop-border" width="20" height="16" patternUnits="userSpaceOnUse">
             <path d="M 0 0 C 5 0, 5 8, 10 8 C 15 8, 15 0, 20 0" fill="none" stroke="currentColor" strokeWidth="1" />

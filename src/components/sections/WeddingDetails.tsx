@@ -68,7 +68,7 @@ export default function WeddingDetails() {
     <section
       id="details"
       ref={sectionRef}
-      className="relative min-h-screen py-16 px-4 flex flex-col justify-between items-center bg-[#FFF8EC] text-[#3A0D14] overflow-hidden"
+      className="relative min-h-0 py-8 sm:py-14 px-4 flex flex-col items-center bg-[#FFF8EC] text-[#3A0D14] overflow-hidden"
       style={{
         backgroundImage:
           'radial-gradient(circle at 50% 20%, rgba(246,233,210,0.7) 0%, rgba(255,248,236,1) 100%)',
@@ -241,7 +241,7 @@ export default function WeddingDetails() {
       </div>
 
       {/* Bottom Folk Illustration: Bengali Village Mud Thatched Houses (Aatchala) & Coconut Palms */}
-      <div className="w-full max-w-[430px] mt-10 pt-4 flex flex-col items-center">
+      <div className="w-full max-w-[430px] mt-5 sm:mt-8 pt-2 flex flex-col items-center">
         <svg
           className="w-full h-24 text-[#B3172F]/85"
           viewBox="0 0 400 90"

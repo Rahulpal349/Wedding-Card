@@ -53,7 +53,7 @@ export default function Venue() {
     <section
       id="venue"
       ref={sectionRef}
-      className="relative min-h-screen py-16 px-4 flex flex-col justify-between items-center text-[#FFF8EC] overflow-hidden"
+      className="relative min-h-0 py-10 sm:py-16 px-4 flex flex-col items-center text-[#FFF8EC] overflow-hidden"
       style={{
         background: 'linear-gradient(to bottom, #1A0508 0%, #2A0910 40%, #150306 100%)',
       }}
@@ -190,25 +190,6 @@ export default function Venue() {
             <span>
               {t('parking')}: {locale === 'bn' ? event.venue.parkingBn : event.venue.parking}
             </span>
-          </div>
-
-          {/* Helpline */}
-          <div className="pt-2 border-t border-[#FFF8EC]/10 flex flex-col gap-2">
-            <span className="text-[#F2B705] font-semibold text-xs">{t('helpline')}:</span>
-            <div className="flex flex-wrap gap-2">
-              {event.venue.helplineNumbers.map((hl, i) => (
-                <a
-                  key={i}
-                  href={`tel:${hl.phone.replace(/[\s-]/g, '')}`}
-                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#F2B705]/15 border border-[#F2B705]/30 text-[#F2B705] hover:bg-[#F2B705]/25 font-mono text-xs sm:text-sm min-h-[44px] transition-colors"
-                >
-                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                  </svg>
-                  <span>{locale === 'bn' ? hl.nameBn : hl.name}: {hl.phone}</span>
-                </a>
-              ))}
-            </div>
           </div>
         </div>
       </div>

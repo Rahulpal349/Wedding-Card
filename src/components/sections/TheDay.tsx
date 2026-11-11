@@ -54,7 +54,7 @@ export default function TheDay() {
     <section
       id="the-day"
       ref={sectionRef}
-      className="relative min-h-screen py-20 px-3 sm:px-6 md:px-8 bg-[#FFF8EC] text-[#3A0D14] overflow-hidden"
+      className="relative min-h-0 py-10 sm:py-20 px-3 sm:px-6 md:px-8 bg-[#FFF8EC] text-[#3A0D14] overflow-hidden"
       style={{
         backgroundImage:
           'radial-gradient(ellipse at 50% 15%, rgba(246, 233, 210, 0.75) 0%, rgba(255, 248, 236, 1) 100%)',

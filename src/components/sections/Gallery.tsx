@@ -144,7 +144,6 @@ export default function Gallery() {
   if (!currentPhoto) return null;
 
   const currentTitle = isBn ? currentPhoto.titleBn : currentPhoto.titleEn;
-  const currentCaption = isBn ? currentPhoto.captionBn : currentPhoto.captionEn;
 
   return (
     <section
@@ -238,7 +237,7 @@ export default function Gallery() {
 
         {/* Animated Sliding Stage */}
         <div
-          className="relative w-full max-w-[460px] sm:max-w-[500px] min-h-[460px] sm:min-h-[500px] flex items-center justify-center overflow-visible"
+          className="relative w-full max-w-[460px] sm:max-w-[500px] min-h-[350px] sm:min-h-[410px] flex items-center justify-center overflow-visible"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
@@ -261,7 +260,7 @@ export default function Gallery() {
                   paginate(-1);
                 }
               }}
-              className="w-full bg-gradient-to-b from-[#FFFDF9] via-[#FFF8EC] to-[#F6E9D2] rounded-3xl p-4 sm:p-5 border-2 border-[#B3172F]/20 shadow-xl relative cursor-grab active:cursor-grabbing transition-colors hover:border-[#B3172F]/40"
+              className="w-full bg-gradient-to-b from-[#FFFDF9] via-[#FFF8EC] to-[#F6E9D2] rounded-3xl p-3.5 sm:p-4.5 border-2 border-[#B3172F]/20 shadow-xl relative cursor-grab active:cursor-grabbing transition-colors hover:border-[#B3172F]/40"
             >
               {/* Corner Traditional Flourishes */}
               <div className="absolute top-2.5 left-3 text-[#B3172F]/30 text-xs font-serif select-none pointer-events-none">
@@ -273,7 +272,7 @@ export default function Gallery() {
 
               {/* Photo Display with Expand Icon */}
               <div
-                className="relative group cursor-pointer mb-3.5"
+                className="relative group cursor-pointer mb-2"
                 onClick={() => handleOpenLightbox(currentIndex)}
                 title={t('viewPhoto')}
               >
@@ -309,25 +308,9 @@ export default function Gallery() {
                 </div>
               </div>
 
-              {/* Caption & Title Details */}
-              <div className="text-center px-2 pb-1">
-                <h3
-                  className={
-                    isBn
-                      ? 'font-display-bn text-xl sm:text-2xl font-bold text-[#6F0E20] leading-snug mb-1'
-                      : 'font-display text-xl sm:text-2xl font-bold text-[#6F0E20] leading-snug mb-1'
-                  }
-                >
-                  {currentTitle}
-                </h3>
-                <p className="text-xs sm:text-sm text-[#3A0D14]/75 line-clamp-2 max-w-sm mx-auto font-serif">
-                  {currentCaption}
-                </p>
-              </div>
-
               {/* Bottom Animated Slide Progress Bar */}
               {isPlaying && !isHovered && (
-                <div className="w-full bg-[#B3172F]/15 h-1 rounded-full mt-3.5 overflow-hidden">
+                <div className="w-full bg-[#B3172F]/15 h-1 rounded-full mt-2.5 overflow-hidden">
                   <motion.div
                     key={currentIndex}
                     initial={{ width: '0%' }}
@@ -399,7 +382,7 @@ export default function Gallery() {
 
         {/* Interactive Thumbnail Carousel Strip */}
         <div className="w-full max-w-[460px] sm:max-w-[500px] mt-4 px-1">
-          <div className="flex items-center justify-center gap-2 sm:gap-2.5 overflow-x-auto py-1.5 scrollbar-none">
+          <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-2.5 overflow-x-auto py-1.5 px-2 scrollbar-none scroll-smooth">
             {photos.map((photo, idx) => {
               const isActive = idx === currentIndex;
               const photoTitle = isBn ? photo.titleBn : photo.titleEn;

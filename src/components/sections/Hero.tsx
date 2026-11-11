@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { useTranslations, useLocale } from 'next-intl';
 import { event } from '../../../content/event';
 import Countdown from '@/components/ui/Countdown';
+import CalendarLinks from '@/components/ui/CalendarLinks';
 import PetalParticles from '@/components/ui/PetalParticles';
 import PhotoHolder from '@/components/ui/PhotoHolder';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
@@ -81,7 +82,7 @@ export default function Hero() {
     <div
       id="hero"
       ref={sectionRef}
-      className="relative min-h-[100dvh] flex flex-col items-center justify-between px-3 pt-12 pb-6 sm:px-4 sm:pt-14 sm:pb-8 overflow-hidden bg-[#FFF8EC]"
+      className="relative min-h-0 sm:min-h-[100dvh] flex flex-col items-center justify-start px-3 pt-8 pb-6 sm:px-4 sm:pt-14 sm:pb-10 overflow-hidden bg-[#FFF8EC]"
       style={{
         backgroundImage:
           'radial-gradient(circle at 50% 20%, rgba(246,233,210,0.85) 0%, rgba(255,248,236,1) 100%)',
@@ -227,9 +228,31 @@ export default function Hero() {
           </motion.button>
         </div>
 
-        {/* Live Countdown Timer (Compact & High-Contrast) */}
-        <div className="w-full max-w-sm mt-7 px-1">
+        {/* Live Countdown Timer & SAVE THE DATE Calendar Button */}
+        <div className="w-full max-w-sm mt-5 sm:mt-6 px-1 flex flex-col items-center">
           <Countdown />
+
+          {/* SAVE THE DATE Action Button linked with Calendar */}
+          <div className="mt-3.5 sm:mt-4 flex justify-center">
+            <CalendarLinks
+              title={
+                locale === 'bn'
+                  ? `${event.bride.nameBn} ও ${event.groom.nameBn}-র শুভ বিবাহ`
+                  : `${event.bride.name} & ${event.groom.name}'s Wedding`
+              }
+              start={event.weddingDate}
+              end="2026-11-25T23:59:00+05:30"
+              location={`${event.venue.name}, ${event.venue.address}`}
+              description={
+                locale === 'bn'
+                  ? `${event.welcome.subtitleBn} অনুষ্ঠান স্থল: ${event.venue.name}, ${event.venue.address}`
+                  : `${event.welcome.subtitleEn} at ${event.venue.name}, ${event.venue.address}`
+              }
+              variant="hero"
+              label="SAVE THE DATE"
+              align="center"
+            />
+          </div>
         </div>
       </div>
     </div>

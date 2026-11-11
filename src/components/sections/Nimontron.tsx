@@ -68,7 +68,7 @@ export default function Nimontron() {
     <section
       id="blessings"
       ref={sectionRef}
-      className="relative min-h-screen py-16 px-4 flex flex-col justify-between items-center bg-[#FFF8EC] text-[#3A0D14] overflow-hidden"
+      className="relative min-h-0 py-8 sm:py-14 px-4 flex flex-col items-center bg-[#FFF8EC] text-[#3A0D14] overflow-hidden"
       style={{
         backgroundImage:
           'radial-gradient(circle at 50% 30%, rgba(246,233,210,0.6) 0%, rgba(255,248,236,1) 100%)',
@@ -131,7 +131,7 @@ export default function Nimontron() {
       </div>
 
       {/* Bottom Scalloped Terracotta Border */}
-      <div className="w-full max-w-[430px] pt-4 border-t border-[#B5532E]/20 flex justify-center opacity-80">
+      <div className="w-full max-w-[430px] mt-4 sm:mt-6 pt-3 border-t border-[#B5532E]/20 flex justify-center opacity-80">
         <svg className="w-full h-4 text-[#B5532E]" viewBox="0 0 320 16" fill="currentColor">
           <pattern id="nimontron-terracotta-scallop" width="20" height="16" patternUnits="userSpaceOnUse">
             <path d="M 0 0 C 5 0, 5 8, 10 8 C 15 8, 15 0, 20 0" fill="none" stroke="currentColor" strokeWidth="1" />

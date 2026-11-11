@@ -14,7 +14,7 @@ export default function Footer() {
   return (
     <footer
       id="closing"
-      className="relative min-h-screen py-16 px-4 flex flex-col justify-between items-center text-[#FFF8EC] overflow-hidden"
+      className="relative min-h-0 py-10 sm:py-16 px-4 flex flex-col items-center text-[#FFF8EC] overflow-hidden"
       style={{
         background: 'linear-gradient(to bottom, #5A0A19 0%, #400913 60%, #2A050C 100%)',
       }}

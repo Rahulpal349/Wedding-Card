@@ -11,7 +11,11 @@ interface CalendarLinksProps {
   location: string;
   description: string;
   compact?: boolean;
-  align?: 'left' | 'right';
+  align?: 'left' | 'right' | 'center';
+  variant?: 'default' | 'compact' | 'hero';
+  label?: string;
+  className?: string;
+  buttonClassName?: string;
 }
 
 export default function CalendarLinks({
@@ -22,6 +26,10 @@ export default function CalendarLinks({
   description,
   compact = false,
   align = 'left',
+  variant = 'default',
+  label,
+  className = '',
+  buttonClassName,
 }: CalendarLinksProps) {
   const t = useTranslations('ceremonies');
   const [isOpen, setIsOpen] = useState(false);
@@ -61,21 +69,44 @@ export default function CalendarLinks({
     setIsOpen(false);
   };
 
+  // Determine button styling based on variant
+  const getButtonClass = () => {
+    if (buttonClassName) return buttonClassName;
+
+    if (variant === 'hero') {
+      return 'inline-flex items-center justify-center gap-2.5 px-6 py-2.5 rounded-full bg-gradient-to-r from-[#B3172F] via-[#941224] to-[#6F0E20] text-[#FFF8EC] border-2 border-[#F2B705]/70 shadow-lg hover:shadow-xl hover:brightness-110 active:scale-95 transition-all text-xs sm:text-sm font-bold tracking-wider cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#F2B705] min-h-[46px] select-none';
+    }
+
+    if (compact || variant === 'compact') {
+      return 'inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full bg-[#B3172F] text-[#FFF8EC] text-xs font-semibold hover:bg-[#6F0E20] transition-colors min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2B705] shadow-sm cursor-pointer select-none';
+    }
+
+    return 'inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg bg-[#B3172F] text-[#FFF8EC] text-sm font-medium hover:bg-[#6F0E20] transition-colors min-h-[44px] min-w-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2B705] shadow-sm cursor-pointer select-none';
+  };
+
+  // Dropdown alignment classes
+  const getMenuAlignmentClass = () => {
+    if (align === 'center') {
+      return 'left-1/2 -translate-x-1/2';
+    }
+    if (align === 'right') {
+      return 'right-0 sm:right-0 left-auto';
+    }
+    return 'left-0';
+  };
+
   return (
-    <div className="relative inline-block text-left" ref={dropdownRef}>
+    <div className={`relative inline-block text-left ${className}`} ref={dropdownRef}>
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
         aria-haspopup="true"
-        className={
-          compact
-            ? 'inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full bg-[#B3172F] text-[#FFF8EC] text-xs font-semibold hover:bg-[#6F0E20] transition-colors min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2B705] shadow-sm'
-            : 'inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg bg-[#B3172F] text-[#FFF8EC] text-sm font-medium hover:bg-[#6F0E20] transition-colors min-h-[44px] min-w-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2B705] shadow-sm'
-        }
+        className={getButtonClass()}
       >
+        {/* Calendar Icon */}
         <svg
-          className="w-3.5 h-3.5"
+          className={variant === 'hero' ? 'w-4 h-4 text-[#F2B705]' : 'w-3.5 h-3.5'}
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
@@ -87,12 +118,17 @@ export default function CalendarLinks({
           <line x1="8" y1="2" x2="8" y2="6" />
           <line x1="3" y1="10" x2="21" y2="10" />
         </svg>
-        <span>{t('addToCalendar')}</span>
+
+        <span>{label || t('addToCalendar')}</span>
+
+        {/* Dropdown Chevron */}
         <svg
-          className={`w-3 h-3 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-3.5 h-3.5 transition-transform duration-200 ${
+            variant === 'hero' ? 'text-[#F2B705]' : ''
+          } ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth="2.5"
           viewBox="0 0 24 24"
           aria-hidden="true"
         >
@@ -104,49 +140,48 @@ export default function CalendarLinks({
         <div
           role="menu"
           aria-orientation="vertical"
-          className={`absolute mt-2 w-52 rounded-xl bg-[#FFF8EC] border border-[#B5532E]/30 shadow-xl z-30 py-1.5 focus:outline-none animate-fadeIn ${
-            align === 'right' ? 'right-0 sm:right-0 left-auto' : 'left-0'
-          }`}
+          className={`absolute mt-2.5 w-60 rounded-2xl bg-[#FFF8EC] border-2 border-[#B3172F]/30 shadow-2xl z-40 py-2 focus:outline-none animate-fadeIn ${getMenuAlignmentClass()}`}
         >
-          <button
-            role="menuitem"
-            type="button"
-            onClick={handleDownloadICS}
-            className="flex items-center w-full px-4 py-2.5 text-xs sm:text-sm text-[#3A0D14] hover:bg-[#F6E9D2] transition-colors text-left min-h-[44px]"
-          >
-            <svg
-              className="w-4 h-4 mr-2.5 text-[#B3172F]"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
-            {t('downloadICS')}
-          </button>
+          {/* Header Label inside popup */}
+          <div className="px-4 py-1.5 border-b border-[#B5532E]/15 mb-1">
+            <p className="text-[11px] font-bold text-[#6F0E20] uppercase tracking-wider">
+              {label || t('addToCalendar')}
+            </p>
+            <p className="text-[10px] text-[#B5532E]/80">
+              ২৫ নভেম্বর ২০২৬ • 25 Nov 2026
+            </p>
+          </div>
+
+          {/* Google Calendar option */}
           <button
             role="menuitem"
             type="button"
             onClick={handleGoogleCalendar}
-            className="flex items-center w-full px-4 py-2.5 text-xs sm:text-sm text-[#3A0D14] hover:bg-[#F6E9D2] transition-colors text-left min-h-[44px]"
+            className="flex items-center w-full px-4 py-2.5 text-xs sm:text-sm font-medium text-[#3A0D14] hover:bg-[#F6E9D2] hover:text-[#B3172F] transition-colors text-left min-h-[44px] cursor-pointer"
           >
-            <svg
-              className="w-4 h-4 mr-2.5 text-[#B3172F]"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              <polyline points="15 3 21 3 21 9" />
-              <line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
-            {t('googleCalendar')}
+            <span className="w-6 h-6 rounded-full bg-[#B3172F]/10 flex items-center justify-center mr-2.5 shrink-0 text-[#B3172F]">
+              📅
+            </span>
+            <div className="flex flex-col">
+              <span className="font-semibold text-xs sm:text-sm">{t('googleCalendar')}</span>
+              <span className="text-[10px] text-[#6F0E20]/70">Google Calendar</span>
+            </div>
+          </button>
+
+          {/* Apple Calendar / Outlook / ICS option */}
+          <button
+            role="menuitem"
+            type="button"
+            onClick={handleDownloadICS}
+            className="flex items-center w-full px-4 py-2.5 text-xs sm:text-sm font-medium text-[#3A0D14] hover:bg-[#F6E9D2] hover:text-[#B3172F] transition-colors text-left min-h-[44px] cursor-pointer"
+          >
+            <span className="w-6 h-6 rounded-full bg-[#B3172F]/10 flex items-center justify-center mr-2.5 shrink-0 text-[#B3172F]">
+              🍏
+            </span>
+            <div className="flex flex-col">
+              <span className="font-semibold text-xs sm:text-sm">{t('downloadICS')}</span>
+              <span className="text-[10px] text-[#6F0E20]/70">Apple / Outlook / Phone (.ics)</span>
+            </div>
           </button>
         </div>
       )}
