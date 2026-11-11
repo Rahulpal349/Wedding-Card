@@ -135,6 +135,13 @@ export default function Gate() {
       ease: 'power3.inOut',
       onComplete: () => setIsHidden(true),
     });
+    if (containerRef.current) {
+      gsap.to(containerRef.current, {
+        opacity: 0,
+        duration: 1.3,
+        ease: 'power2.inOut',
+      });
+    }
 
     // Fallback timer to guarantee unmounting even if tab is throttled or animation frame paused
     setTimeout(() => {
@@ -194,7 +201,7 @@ export default function Gate() {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-50 overflow-hidden flex items-center justify-center"
+      className="fixed inset-0 z-50 overflow-hidden flex items-center justify-center bg-[#6F0E20]"
       role="dialog"
       aria-modal="true"
       aria-label={t('title')}
@@ -202,26 +209,22 @@ export default function Gate() {
       {/* Left Door */}
       <div
         ref={leftDoorRef}
-        className="absolute top-0 left-0 w-1/2 h-full bg-[#6F0E20] border-r-2 border-[#F2B705]/40 shadow-2xl flex items-center justify-end"
+        className="absolute top-0 left-0 w-[calc(50%+1px)] h-full bg-[#6F0E20] shadow-2xl"
         style={{
           backgroundImage:
             'radial-gradient(circle at 100% 50%, rgba(179, 23, 47, 0.4) 0%, rgba(111, 14, 32, 1) 70%)',
         }}
-      >
-        <div className="absolute right-3 sm:right-6 top-0 bottom-0 w-12 border-r border-dashed border-[#F2B705]/20 pointer-events-none" />
-      </div>
+      />
 
       {/* Right Door */}
       <div
         ref={rightDoorRef}
-        className="absolute top-0 right-0 w-1/2 h-full bg-[#6F0E20] border-l-2 border-[#F2B705]/40 shadow-2xl flex items-center justify-start"
+        className="absolute top-0 right-0 w-1/2 h-full bg-[#6F0E20] shadow-2xl"
         style={{
           backgroundImage:
             'radial-gradient(circle at 0% 50%, rgba(179, 23, 47, 0.4) 0%, rgba(111, 14, 32, 1) 70%)',
         }}
-      >
-        <div className="absolute left-3 sm:left-6 top-0 bottom-0 w-12 border-l border-dashed border-[#F2B705]/20 pointer-events-none" />
-      </div>
+      />
 
       {/* Central Content Card */}
       <div
