@@ -5,7 +5,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTranslations, useLocale } from 'next-intl';
 import { event } from '../../../content/event';
-import DateMedallion from '@/components/ui/DateMedallion';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useLenisContext } from '@/hooks/useLenis';
 
@@ -115,19 +114,42 @@ export default function WeddingDetails() {
           </div>
         </div>
 
-        {/* Circular Wedding Date Medallion */}
-        <div
-          ref={(el) => {
-            itemsRef.current[0] = el;
-          }}
-          className="my-3 flex flex-col items-center"
-        >
-          <DateMedallion />
-        </div>
+        {/* 3 Detail Info Cards */}
+        <div className="w-full flex flex-col gap-6 px-4">
+          {/* 1. Wedding Date Card */}
+          <div
+            ref={(el) => {
+              itemsRef.current[0] = el;
+            }}
+            className="flex items-center gap-5 p-4 rounded-2xl bg-[#F6E9D2]/70 border border-[#B3172F]/15 shadow-sm"
+          >
+            {/* Calendar Icon */}
+            <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-[#B3172F]/10 border border-[#B3172F]/30 flex items-center justify-center text-[#B3172F]">
+              <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+                <circle cx="8" cy="15" r="1" fill="currentColor" />
+                <circle cx="12" cy="15" r="1" fill="currentColor" />
+                <circle cx="16" cy="15" r="1" fill="currentColor" />
+              </svg>
+            </div>
+            {/* Text */}
+            <div className="flex-1">
+              <h3 className="font-display-bn text-xl text-[#B3172F] font-bold">
+                {locale === 'bn' ? 'বিবাহের দিন' : 'Wedding Date'}
+              </h3>
+              <p className="text-base font-semibold text-[#3A0D14] mt-0.5">
+                {locale === 'bn' ? 'বুধবার, ২৫ নভেম্বর ২০২৬' : 'Wednesday, 25 November 2026'}
+              </p>
+              <p className="text-xs text-[#3A0D14]/70 italic font-serif">
+                {locale === 'bn' ? 'Wedding: Wednesday, 25 November 2026' : 'বুধবার, ২৫ নভেম্বর ২০২৬'}
+              </p>
+            </div>
+          </div>
 
-        {/* 2 Detail Info Cards */}
-        <div className="w-full flex flex-col gap-4 px-4 mt-2">
-          {/* 1. Wedding Ceremony / Homa Fire Card (Clickable to The Day Itinerary) */}
+          {/* 2. Wedding Ceremony / Homa Fire Card (Clickable to The Day Itinerary) */}
           <div
             ref={(el) => {
               itemsRef.current[1] = el;

@@ -68,3 +68,4 @@ export default function DateMedallion({ className = '', size = 'md' }: DateMedal
     </div>
   );
 }
+

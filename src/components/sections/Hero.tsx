@@ -232,8 +232,36 @@ export default function Hero() {
         <div className="w-full max-w-sm mt-5 sm:mt-6 px-1 flex flex-col items-center">
           <Countdown />
 
+          {/* Square Wedding Date Card (In between Countdown & SAVE THE DATE) */}
+          <div className="w-full max-w-[340px] sm:max-w-[360px] mt-4 mb-3 flex items-center gap-3.5 p-3.5 rounded-2xl bg-[#F6E9D2]/75 border border-[#B3172F]/15 shadow-sm text-left">
+            {/* Calendar Icon */}
+            <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-[#B3172F]/10 border border-[#B3172F]/30 flex items-center justify-center text-[#B3172F]">
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+                <circle cx="8" cy="15" r="1" fill="currentColor" />
+                <circle cx="12" cy="15" r="1" fill="currentColor" />
+                <circle cx="16" cy="15" r="1" fill="currentColor" />
+              </svg>
+            </div>
+            {/* Text */}
+            <div className="flex-1 min-w-0">
+              <h3 className="font-display-bn text-lg sm:text-xl text-[#B3172F] font-bold leading-tight">
+                {locale === 'bn' ? 'বিবাহের দিন' : 'Wedding Date'}
+              </h3>
+              <p className="text-sm sm:text-base font-semibold text-[#3A0D14] mt-0.5 leading-tight">
+                {locale === 'bn' ? 'বুধবার, ২৫ নভেম্বর ২০২৬' : 'Wednesday, 25 November 2026'}
+              </p>
+              <p className="text-[11px] sm:text-xs text-[#3A0D14]/70 italic font-serif leading-tight mt-0.5">
+                {locale === 'bn' ? 'Wednesday, 25 November 2026' : 'বুধবার, ২৫ নভেম্বর ২০২৬'}
+              </p>
+            </div>
+          </div>
+
           {/* SAVE THE DATE Action Button linked with Calendar */}
-          <div className="mt-3.5 sm:mt-4 flex justify-center">
+          <div className="mt-1 flex justify-center">
             <CalendarLinks
               title={
                 locale === 'bn'
