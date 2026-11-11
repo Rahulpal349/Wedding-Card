@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useLocale } from 'next-intl';
 
@@ -34,6 +34,11 @@ export default function PhotoHolder({
   const locale = useLocale();
   const [hasError, setHasError] = useState(false);
 
+  // Reset error state whenever the source changes or component updates
+  useEffect(() => {
+    setHasError(false);
+  }, [src]);
+
   // If a valid image source exists and has not errored, render the real photo
   const showImage = Boolean(src && !hasError);
 
@@ -65,7 +70,10 @@ export default function PhotoHolder({
           sizes={sizes}
           priority={priority}
           className="object-cover object-center"
-          onError={() => setHasError(true)}
+          onError={(e) => {
+            console.warn(`[PhotoHolder] Image failed to load: ${src}`, e);
+            setHasError(true);
+          }}
         />
         {shape === 'arch' && (
           <div className="absolute inset-0 ring-1 ring-inset ring-[#B3172F]/30 rounded-t-full rounded-b-2xl pointer-events-none" />
