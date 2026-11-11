@@ -163,14 +163,21 @@ export default function TheDay() {
 
       <div className="relative z-20 max-w-4xl mx-auto flex flex-col items-center">
         {/* 2. Section Header (Matching Image 1) */}
-        <div className="text-center max-w-xl mx-auto mb-16 pt-4">
-          <p className="font-serif text-xs sm:text-sm tracking-[0.25em] text-[#B5532E] uppercase font-semibold mb-1">
-            {locale === 'bn' ? event.theDay.headerSmallBn : event.theDay.headerSmallEn}
-          </p>
-
-          <h2 className="font-display italic text-5xl sm:text-6xl md:text-7xl text-[#3A0D14] font-normal leading-tight my-1 drop-shadow-sm">
-            {locale === 'bn' ? event.theDay.titleBn : event.theDay.titleEn}
-          </h2>
+        <div className="text-center max-w-xl mx-auto mb-8 sm:mb-14 pt-2 sm:pt-4">
+          {locale === 'bn' ? (
+            <h2 className="font-display-bn text-3xl sm:text-4xl text-[#B3172F] font-bold leading-tight my-1 drop-shadow-sm">
+              {event.theDay.headerSmallBn}
+            </h2>
+          ) : (
+            <>
+              <p className="font-serif text-xs sm:text-sm tracking-[0.25em] text-[#B5532E] uppercase font-semibold mb-1">
+                {event.theDay.headerSmallEn}
+              </p>
+              <h2 className="font-display italic text-5xl sm:text-6xl md:text-7xl text-[#3A0D14] font-normal leading-tight my-1 drop-shadow-sm">
+                {event.theDay.titleEn}
+              </h2>
+            </>
+          )}
 
           <p className="font-serif italic text-sm sm:text-base text-[#6F0E20]/90 mt-1">
             {locale === 'bn' ? event.theDay.subtitleBn : event.theDay.subtitleEn}
