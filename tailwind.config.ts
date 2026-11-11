@@ -15,9 +15,9 @@ const config: Config = {
         ink: '#3A0D14',
       },
       fontFamily: {
-        display: ['Cormorant Garamond', 'serif'],
-        'display-bn': ['Galada', 'cursive'],
-        body: ['Hind Siliguri', 'sans-serif'],
+        display: ['"Cormorant Garamond"', 'var(--font-cormorant)', 'serif'],
+        'display-bn': ['"Galada"', 'var(--font-galada)', 'cursive'],
+        body: ['"Hind Siliguri"', 'var(--font-hind-siliguri)', 'sans-serif'],
       },
     },
   },

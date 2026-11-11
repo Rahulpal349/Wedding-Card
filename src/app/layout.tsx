@@ -1,29 +1,6 @@
 import type { Metadata, Viewport } from 'next';
-import { Galada, Hind_Siliguri, Cormorant_Garamond } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
 import './globals.css';
-
-const galada = Galada({
-  weight: '400',
-  subsets: ['bengali', 'latin'],
-  variable: '--font-galada',
-  display: 'swap',
-});
-
-const hindSiliguri = Hind_Siliguri({
-  weight: ['400', '600', '700'],
-  subsets: ['bengali', 'latin'],
-  variable: '--font-hind-siliguri',
-  display: 'swap',
-});
-
-const cormorantGaramond = Cormorant_Garamond({
-  weight: ['400', '600', '700'],
-  subsets: ['latin'],
-  variable: '--font-cormorant',
-  style: ['normal', 'italic'],
-  display: 'swap',
-});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -57,13 +34,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      suppressHydrationWarning
-      className={`${galada.variable} ${hindSiliguri.variable} ${cormorantGaramond.variable}`}
-    >
+    <html suppressHydrationWarning lang="bn">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Galada&family=Hind+Siliguri:wght@400;600;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body
         suppressHydrationWarning
-        className={`${hindSiliguri.variable} ${cormorantGaramond.variable} ${galada.variable} font-body min-h-[100dvh]`}
+        className="font-body min-h-[100dvh]"
       >
         {children}
         <Analytics />
