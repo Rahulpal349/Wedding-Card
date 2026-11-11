@@ -6,12 +6,12 @@ import Image from 'next/image';
 import { useTranslations, useLocale } from 'next-intl';
 import { event } from '../../../content/event';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
-import { playAuspiciousChime } from '@/lib/audio';
+import { playAuspiciousChime, playWeddingMusic, pauseWeddingMusic } from '@/lib/audio';
 
 export default function Gate() {
   const [isOpen, setIsOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
-  const [soundOn, setSoundOn] = useState(false);
+  const [soundOn, setSoundOn] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const leftDoorRef = useRef<HTMLDivElement>(null);
   const rightDoorRef = useRef<HTMLDivElement>(null);
@@ -70,6 +70,7 @@ export default function Gate() {
 
     if (soundOn) {
       playAuspiciousChime();
+      playWeddingMusic();
     }
 
     const left = leftDoorRef.current;
@@ -233,7 +234,13 @@ export default function Gate() {
           {/* Sound Toggle */}
           <button
             type="button"
-            onClick={() => setSoundOn(!soundOn)}
+            onClick={() => {
+              const next = !soundOn;
+              setSoundOn(next);
+              if (!next) {
+                pauseWeddingMusic();
+              }
+            }}
             aria-pressed={soundOn}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#3A0D14]/60 hover:bg-[#3A0D14]/90 text-[#FFF8EC]/90 text-xs sm:text-sm font-medium border border-[#FFF8EC]/15 transition-all min-h-[44px]"
           >
@@ -243,7 +250,7 @@ export default function Gate() {
                   <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
                   <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
                 </svg>
-                <span>শব্দ চালু (Sound On)</span>
+                <span>{locale === 'bn' ? 'গান চালু (Music On)' : 'Music On'}</span>
               </>
             ) : (
               <>
@@ -252,7 +259,7 @@ export default function Gate() {
                   <line x1="23" y1="9" x2="17" y2="15" />
                   <line x1="17" y1="9" x2="23" y2="15" />
                 </svg>
-                <span>শব্দ বন্ধ (Sound Off)</span>
+                <span>{locale === 'bn' ? 'গান বন্ধ (Music Off)' : 'Music Off'}</span>
               </>
             )}
           </button>

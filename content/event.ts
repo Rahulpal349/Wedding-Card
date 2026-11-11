@@ -24,6 +24,15 @@ export const event = {
     footer: "/images/paan-hands-shankhapola.webp" as string | null,
   },
 
+  // Background Wedding Music (Hindi Wedding Song / Shehnai)
+  // Drop any MP3 into public/audio/ (e.g. Din Shagna Da, Kudmayi, Kesariya, or Shehnai)
+  music: {
+    src: "/audio/hindi-wedding-song.mp3",
+    titleEn: "Hindi Wedding Melody",
+    titleBn: "হিন্দি বিয়ের মধুর সুর",
+    autoplayOnOpen: true,
+  },
+
   // Date
   weddingDate: "2026-11-25T18:00:00+05:30",
   banglaDate: "৯ই অগ্রহায়ণ, ১৪৩৩ বঙ্গাব্দ",

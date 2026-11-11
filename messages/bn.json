@@ -131,8 +131,9 @@
   "controls": {
     "pauseAnimations": "অ্যানিমেশন থামান",
     "resumeAnimations": "অ্যানিমেশন চালান",
-    "soundOn": "শব্দ চালু",
-    "soundOff": "শব্দ বন্ধ"
+    "soundOn": "গান চালু",
+    "soundOff": "গান বন্ধ",
+    "weddingSong": "হিন্দি বিয়ের গান"
   },
   "language": {
     "switch": "English"

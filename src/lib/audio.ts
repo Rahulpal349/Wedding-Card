@@ -1,10 +1,14 @@
+import { event } from '../../content/event';
+
 /**
- * Web Audio API synthesized soft auspicious wedding chime.
- * Generates an authentic resonant brass bell tone with gentle harmonic decay.
- * Zero external audio files required (0 KB network load, 100% reliable).
+ * Audio manager for:
+ * 1. Hindi Wedding Song / Shehnai background music
+ * 2. Auspicious synthesized brass bell temple chime
  */
 
 let audioCtx: AudioContext | null = null;
+let bgMusicAudio: HTMLAudioElement | null = null;
+let isMusicPlaying = false;
 
 function getAudioContext(): AudioContext | null {
   if (typeof window === 'undefined') return null;
@@ -17,7 +21,7 @@ function getAudioContext(): AudioContext | null {
     }
   }
   if (audioCtx && audioCtx.state === 'suspended') {
-    audioCtx.resume();
+    audioCtx.resume().catch(() => {});
   }
   return audioCtx;
 }
@@ -28,36 +32,126 @@ export function playAuspiciousChime(): void {
     if (!ctx) return;
 
     const now = ctx.currentTime;
-
-    // Harmonic bell frequencies (Pentatonic Auspicious Chord: C5, E5, G5, C6)
     const harmonics = [
-      { freq: 523.25, gain: 0.25, decay: 2.8 },
-      { freq: 659.25, gain: 0.18, decay: 2.4 },
-      { freq: 783.99, gain: 0.14, decay: 2.0 },
+      { freq: 523.25, gain: 0.22, decay: 2.8 },
+      { freq: 659.25, gain: 0.16, decay: 2.4 },
+      { freq: 783.99, gain: 0.12, decay: 2.0 },
       { freq: 1046.5, gain: 0.08, decay: 1.6 },
-      { freq: 1318.5, gain: 0.04, decay: 1.2 },
     ];
 
     harmonics.forEach(({ freq, gain, decay }) => {
       const osc = ctx.createOscillator();
       const gainNode = ctx.createGain();
-
       osc.type = 'sine';
       osc.frequency.setValueAtTime(freq, now);
-
-      // Fast initial attack (chime hit) and slow exponential decay
       gainNode.gain.setValueAtTime(0.001, now);
       gainNode.gain.exponentialRampToValueAtTime(gain, now + 0.03);
       gainNode.gain.exponentialRampToValueAtTime(0.0001, now + decay);
-
       osc.connect(gainNode);
       gainNode.connect(ctx.destination);
-
       osc.start(now);
       osc.stop(now + decay);
     });
-  } catch {
-    // Graceful fallback if Web Audio is unsupported or restricted
+  } catch {}
+}
+
+export function getWeddingAudio(): HTMLAudioElement | null {
+  if (typeof window === 'undefined') return null;
+  if (!bgMusicAudio) {
+    const src = event.music?.src || '/audio/hindi-wedding-song.mp3';
+    bgMusicAudio = new Audio(src);
+    bgMusicAudio.loop = true;
+    bgMusicAudio.preload = 'auto';
+    bgMusicAudio.volume = 0.65;
+
+    bgMusicAudio.addEventListener('play', () => {
+      isMusicPlaying = true;
+      dispatchMusicState(true);
+    });
+
+    bgMusicAudio.addEventListener('pause', () => {
+      isMusicPlaying = false;
+      dispatchMusicState(false);
+    });
+
+    bgMusicAudio.addEventListener('ended', () => {
+      isMusicPlaying = false;
+      dispatchMusicState(false);
+    });
+  }
+  return bgMusicAudio;
+}
+
+function dispatchMusicState(playing: boolean) {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(
+    new CustomEvent('wedding-music-changed', {
+      detail: { playing, soundEnabled: playing },
+    })
+  );
+}
+
+export function playWeddingMusic(): Promise<void> {
+  const audio = getWeddingAudio();
+  if (!audio) return Promise.resolve();
+
+  // Try resuming AudioContext if any
+  try {
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume().catch(() => {});
+    }
+  } catch {}
+
+  audio.volume = 0.05;
+  const playPromise = audio.play();
+  if (playPromise !== undefined) {
+    return playPromise
+      .then(() => {
+        isMusicPlaying = true;
+        dispatchMusicState(true);
+        // Smoothly ramp volume to 0.65
+        let vol = 0.05;
+        const fadeInterval = setInterval(() => {
+          vol += 0.05;
+          if (vol >= 0.65) {
+            audio.volume = 0.65;
+            clearInterval(fadeInterval);
+          } else {
+            audio.volume = vol;
+          }
+        }, 80);
+      })
+      .catch((err) => {
+        console.warn('Wedding audio play prevented by browser policy:', err);
+        isMusicPlaying = false;
+        dispatchMusicState(false);
+      });
+  }
+  return Promise.resolve();
+}
+
+export function pauseWeddingMusic(): void {
+  const audio = getWeddingAudio();
+  if (!audio) return;
+  audio.pause();
+  isMusicPlaying = false;
+  dispatchMusicState(false);
+}
+
+export function toggleWeddingMusic(): boolean {
+  const audio = getWeddingAudio();
+  if (!audio) return false;
+
+  if (audio.paused) {
+    playWeddingMusic();
+    return true;
+  } else {
+    pauseWeddingMusic();
+    return false;
   }
 }
 
+export function isWeddingMusicActive(): boolean {
+  if (!bgMusicAudio) return false;
+  return !bgMusicAudio.paused;
+}

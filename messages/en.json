@@ -130,8 +130,9 @@
   "controls": {
     "pauseAnimations": "Pause Animations",
     "resumeAnimations": "Resume Animations",
-    "soundOn": "Sound On",
-    "soundOff": "Sound Off"
+    "soundOn": "Music On",
+    "soundOff": "Music Off",
+    "weddingSong": "Hindi Wedding Song"
   },
   "language": {
     "switch": "বাংলা"
