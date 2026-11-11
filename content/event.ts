@@ -17,9 +17,9 @@ export const event = {
   // Set to null / "" to display the elegant Photo Holder (matching Image 3)
   // Set to a file path (e.g. "/images/real-photo.jpg") to display your own real photo
   photos: {
-    hero: null as string | null, // Couple photo in Hero section (4:5)
-    bride: null as string | null, // Bride's portrait in The Couple section (3:4 Arch)
-    groom: null as string | null, // Groom's portrait in The Couple section (3:4 Arch)
+    hero: "/images/couple-hero.jpg" as string | null, // Couple photo in Hero section (4:5)
+    bride: "/images/bride-portrait.jpg" as string | null, // Bride's portrait in The Couple section (3:4 Arch)
+    groom: "/images/groom-portrait.jpg" as string | null, // Groom's portrait in The Couple section (3:4 Arch)
     venue: "/images/venue-rajbari-night.webp" as string | null,
     footer: "/images/paan-hands-shankhapola.webp" as string | null,
   },

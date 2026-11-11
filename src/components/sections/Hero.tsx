@@ -109,8 +109,21 @@ export default function Hero() {
           />
 
           {/* Hanging Mango Leaves (Aam Pata) */}
-          {[20, 60, 100, 140, 180, 220, 260, 300, 340, 380, 420, 460].map((x, i) => (
-            <g key={x} transform={`translate(${x}, ${12 + Math.sin(i * 0.5) * 5})`}>
+          {[
+            { x: 20, y: 12 },
+            { x: 60, y: 14 },
+            { x: 100, y: 16 },
+            { x: 140, y: 17 },
+            { x: 180, y: 16 },
+            { x: 220, y: 15 },
+            { x: 260, y: 13 },
+            { x: 300, y: 11 },
+            { x: 340, y: 11 },
+            { x: 380, y: 13 },
+            { x: 420, y: 15 },
+            { x: 460, y: 17 },
+          ].map((leaf) => (
+            <g key={leaf.x} transform={`translate(${leaf.x}, ${leaf.y})`}>
               <path
                 d="M 0 0 C 8 16, 14 30, 0 48 C -14 30, -8 16, 0 0 Z"
                 fill="#2F5D3A"

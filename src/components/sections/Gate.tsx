@@ -21,6 +21,16 @@ export default function Gate() {
   const locale = useLocale();
   const prefersReducedMotion = useReducedMotion();
 
+  // Restore open state if gate was already opened in this session
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem('wedding-gate-opened') === 'true') {
+        setIsOpen(true);
+        setIsHidden(true);
+      }
+    } catch {}
+  }, []);
+
   useEffect(() => {
     if (isOpen || isHidden) return;
 
@@ -50,6 +60,9 @@ export default function Gate() {
   const handleOpen = useCallback(() => {
     if (isOpen) return;
     setIsOpen(true);
+    try {
+      sessionStorage.setItem('wedding-gate-opened', 'true');
+    } catch {}
 
     if (containerRef.current) {
       containerRef.current.style.pointerEvents = 'none';
@@ -92,6 +105,11 @@ export default function Gate() {
       ease: 'power3.inOut',
       onComplete: () => setIsHidden(true),
     });
+
+    // Fallback timer to guarantee unmounting even if tab is throttled or animation frame paused
+    setTimeout(() => {
+      setIsHidden(true);
+    }, 1400);
   }, [isOpen, prefersReducedMotion, soundOn]);
 
   if (isHidden) return null;

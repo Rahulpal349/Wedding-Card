@@ -1,28 +1,13 @@
 'use client';
 
-import { useLocale } from 'next-intl';
-import { useRouter, usePathname } from 'next/navigation';
+import { useAppLocale } from '@/components/providers/ClientIntlProvider';
 
 export default function LanguageToggle() {
-  const currentLocale = useLocale();
-  const router = useRouter();
-  const pathname = usePathname();
+  const { locale: currentLocale, setLocale } = useAppLocale();
 
   const switchLocale = (targetLocale: 'bn' | 'en') => {
     if (targetLocale === currentLocale) return;
-
-    try {
-      localStorage.setItem('preferred-locale', targetLocale);
-    } catch {}
-
-    let newPath = pathname;
-    if (pathname.startsWith(`/${currentLocale}`)) {
-      newPath = pathname.replace(`/${currentLocale}`, `/${targetLocale}`);
-    } else {
-      newPath = `/${targetLocale}`;
-    }
-
-    router.push(newPath);
+    setLocale(targetLocale);
   };
 
   return (

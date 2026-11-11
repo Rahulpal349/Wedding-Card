@@ -79,41 +79,41 @@ export default function TheDay() {
           <g transform="translate(60, -10)">
             <path d="M 0 0 Q 5 50, -5 95" stroke="#487A54" strokeWidth="1.5" />
             {[
-              { cy: 25, r: 9, c: '#B899C7' },
-              { cy: 42, r: 8, c: '#A27EAE' },
-              { cy: 58, r: 7.5, c: '#8C6D9E' },
-              { cy: 72, r: 6, c: '#B899C7' },
-              { cy: 84, r: 4.5, c: '#CBB2D6' },
-              { cy: 94, r: 3, c: '#E2D3E9' },
+              { cy: 25, r: 9, c: '#B899C7', cx: 0 },
+              { cy: 42, r: 8, c: '#A27EAE', cx: 6 },
+              { cy: 58, r: 7.5, c: '#8C6D9E', cx: 1 },
+              { cy: 72, r: 6, c: '#B899C7', cx: -6 },
+              { cy: 84, r: 4.5, c: '#CBB2D6', cx: -2 },
+              { cy: 94, r: 3, c: '#E2D3E9', cx: 5 },
             ].map((p, i) => (
-              <circle key={i} cx={Math.sin(i * 1.5) * 6} cy={p.cy} r={p.r} fill={p.c} opacity="0.85" />
+              <circle key={i} cx={p.cx} cy={p.cy} r={p.r} fill={p.c} opacity="0.85" />
             ))}
           </g>
 
           <g transform="translate(130, -5)">
             <path d="M 0 0 Q -5 45, 0 85" stroke="#487A54" strokeWidth="1.2" />
             {[
-              { cy: 20, r: 7.5, c: '#C5A3CF' },
-              { cy: 35, r: 7, c: '#9A75A7' },
-              { cy: 50, r: 6, c: '#8C6D9E' },
-              { cy: 65, r: 5, c: '#B899C7' },
-              { cy: 78, r: 3.5, c: '#D9C3E3' },
+              { cy: 20, r: 7.5, c: '#C5A3CF', cx: 5 },
+              { cy: 35, r: 7, c: '#9A75A7', cx: -1 },
+              { cy: 50, r: 6, c: '#8C6D9E', cx: -4 },
+              { cy: 65, r: 5, c: '#B899C7', cx: 3 },
+              { cy: 78, r: 3.5, c: '#D9C3E3', cx: 4 },
             ].map((p, i) => (
-              <circle key={i} cx={Math.cos(i * 1.8) * 5} cy={p.cy} r={p.r} fill={p.c} opacity="0.8" />
+              <circle key={i} cx={p.cx} cy={p.cy} r={p.r} fill={p.c} opacity="0.8" />
             ))}
           </g>
 
           <g transform="translate(210, -15)">
             <path d="M 0 0 Q 10 60, 5 110" stroke="#487A54" strokeWidth="1.5" />
             {[
-              { cy: 30, r: 8.5, c: '#B899C7' },
-              { cy: 48, r: 8, c: '#8C6D9E' },
-              { cy: 66, r: 7, c: '#795889' },
-              { cy: 82, r: 6, c: '#9A75A7' },
-              { cy: 96, r: 4.5, c: '#C5A3CF' },
-              { cy: 108, r: 3, c: '#E2D3E9' },
+              { cy: 30, r: 8.5, c: '#B899C7', cx: 5 },
+              { cy: 48, r: 8, c: '#8C6D9E', cx: 11 },
+              { cy: 66, r: 7, c: '#795889', cx: 9 },
+              { cy: 82, r: 6, c: '#9A75A7', cx: 2 },
+              { cy: 96, r: 4.5, c: '#C5A3CF', cx: -1 },
+              { cy: 108, r: 3, c: '#E2D3E9', cx: 3 },
             ].map((p, i) => (
-              <circle key={i} cx={5 + Math.sin(i * 1.2) * 6} cy={p.cy} r={p.r} fill={p.c} opacity="0.85" />
+              <circle key={i} cx={p.cx} cy={p.cy} r={p.r} fill={p.c} opacity="0.85" />
             ))}
           </g>
 
@@ -121,41 +121,41 @@ export default function TheDay() {
           <g transform="translate(690, -15)">
             <path d="M 0 0 Q -8 55, -4 108" stroke="#487A54" strokeWidth="1.5" />
             {[
-              { cy: 28, r: 8.5, c: '#B899C7' },
-              { cy: 46, r: 8, c: '#8C6D9E' },
-              { cy: 64, r: 7, c: '#795889' },
-              { cy: 80, r: 6, c: '#9A75A7' },
-              { cy: 94, r: 4.5, c: '#C5A3CF' },
-              { cy: 106, r: 3, c: '#E2D3E9' },
+              { cy: 28, r: 8.5, c: '#B899C7', cx: -4 },
+              { cy: 46, r: 8, c: '#8C6D9E', cx: 2 },
+              { cy: 64, r: 7, c: '#795889', cx: 0 },
+              { cy: 80, r: 6, c: '#9A75A7', cx: -7 },
+              { cy: 94, r: 4.5, c: '#C5A3CF', cx: -10 },
+              { cy: 106, r: 3, c: '#E2D3E9', cx: -6 },
             ].map((p, i) => (
-              <circle key={i} cx={-4 + Math.sin(i * 1.2) * 6} cy={p.cy} r={p.r} fill={p.c} opacity="0.85" />
+              <circle key={i} cx={p.cx} cy={p.cy} r={p.r} fill={p.c} opacity="0.85" />
             ))}
           </g>
 
           <g transform="translate(770, -5)">
             <path d="M 0 0 Q 5 45, 0 85" stroke="#487A54" strokeWidth="1.2" />
             {[
-              { cy: 20, r: 7.5, c: '#C5A3CF' },
-              { cy: 35, r: 7, c: '#9A75A7' },
-              { cy: 50, r: 6, c: '#8C6D9E' },
-              { cy: 65, r: 5, c: '#B899C7' },
-              { cy: 78, r: 3.5, c: '#D9C3E3' },
+              { cy: 20, r: 7.5, c: '#C5A3CF', cx: 0 },
+              { cy: 35, r: 7, c: '#9A75A7', cx: 5 },
+              { cy: 50, r: 6, c: '#8C6D9E', cx: -2 },
+              { cy: 65, r: 5, c: '#B899C7', cx: -5 },
+              { cy: 78, r: 3.5, c: '#D9C3E3', cx: 4 },
             ].map((p, i) => (
-              <circle key={i} cx={Math.sin(i * 1.8) * 5} cy={p.cy} r={p.r} fill={p.c} opacity="0.8" />
+              <circle key={i} cx={p.cx} cy={p.cy} r={p.r} fill={p.c} opacity="0.8" />
             ))}
           </g>
 
           <g transform="translate(840, -10)">
             <path d="M 0 0 Q -5 50, 5 95" stroke="#487A54" strokeWidth="1.5" />
             {[
-              { cy: 25, r: 9, c: '#B899C7' },
-              { cy: 42, r: 8, c: '#A27EAE' },
-              { cy: 58, r: 7.5, c: '#8C6D9E' },
-              { cy: 72, r: 6, c: '#B899C7' },
-              { cy: 84, r: 4.5, c: '#CBB2D6' },
-              { cy: 94, r: 3, c: '#E2D3E9' },
+              { cy: 25, r: 9, c: '#B899C7', cx: 5 },
+              { cy: 42, r: 8, c: '#A27EAE', cx: 0 },
+              { cy: 58, r: 7.5, c: '#8C6D9E', cx: -5 },
+              { cy: 72, r: 6, c: '#B899C7', cx: -1 },
+              { cy: 84, r: 4.5, c: '#CBB2D6', cx: 5 },
+              { cy: 94, r: 3, c: '#E2D3E9', cx: 3 },
             ].map((p, i) => (
-              <circle key={i} cx={Math.cos(i * 1.5) * 6} cy={p.cy} r={p.r} fill={p.c} opacity="0.85" />
+              <circle key={i} cx={p.cx} cy={p.cy} r={p.r} fill={p.c} opacity="0.85" />
             ))}
           </g>
         </svg>

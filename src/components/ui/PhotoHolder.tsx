@@ -37,8 +37,15 @@ export default function PhotoHolder({
   // If a valid image source exists and has not errored, render the real photo
   const showImage = Boolean(src && !hasError);
 
-  // Shape container styles
-  const shapeClass =
+  // Shape container styles for real photo vs placeholder
+  const imageShapeClass =
+    shape === 'arch'
+      ? 'rounded-t-full rounded-b-2xl border-[3px] border-[#B3172F] shadow-xl overflow-hidden'
+      : shape === 'rounded'
+      ? 'rounded-2xl sm:rounded-3xl border border-[#B3172F]/25 shadow-xl overflow-hidden'
+      : 'rounded-xl border border-[#B5532E]/20 shadow-md overflow-hidden';
+
+  const placeholderShapeClass =
     shape === 'arch'
       ? 'rounded-t-full rounded-b-2xl border-[3px] border-[#B3172F] shadow-xl overflow-hidden'
       : shape === 'rounded'
@@ -50,7 +57,7 @@ export default function PhotoHolder({
 
   if (showImage && src) {
     return (
-      <div className={`relative w-full ${aspect} bg-[#F6E9D2] ${shapeClass} ${className}`}>
+      <div className={`relative w-full ${aspect} bg-[#F6E9D2] ${imageShapeClass} ${className}`}>
         <Image
           src={src}
           alt={alt}
@@ -70,7 +77,7 @@ export default function PhotoHolder({
   // Otherwise render the elegant pre-built Photo Holder (Matches Image 3)
   return (
     <div
-      className={`relative w-full ${aspect} bg-[#FFF8EC] flex flex-col items-center justify-center p-4 text-center transition-all duration-300 hover:border-[#B3172F]/60 ${shapeClass} ${className}`}
+      className={`relative w-full ${aspect} bg-[#FFF8EC] flex flex-col items-center justify-center p-4 text-center transition-all duration-300 hover:border-[#B3172F]/60 ${placeholderShapeClass} ${className}`}
       style={{
         backgroundImage:
           'radial-gradient(circle at 50% 40%, rgba(246, 233, 210, 0.5) 0%, rgba(255, 248, 236, 1) 100%)',
