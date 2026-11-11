@@ -34,7 +34,7 @@ export default function PauseAnimations({
       title={isPaused ? t('resumeAnimations') : t('pauseAnimations')}
       className={
         className ||
-        'inline-flex items-center justify-center gap-1.5 p-2.5 rounded-full bg-[#FFF8EC]/90 hover:bg-[#F6E9D2] backdrop-blur-md text-[#6F0E20] font-semibold text-xs border border-[#B5532E]/30 shadow-md transition-all duration-200 min-h-[44px] min-w-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2B705] cursor-pointer'
+        'liquid-glass inline-flex items-center justify-center gap-1.5 p-2.5 rounded-full text-[#6F0E20] font-semibold text-xs transition-all duration-200 min-h-[44px] min-w-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2B705] cursor-pointer'
       }
     >
       {isPaused ? (

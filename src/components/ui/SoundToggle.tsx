@@ -47,10 +47,10 @@ export default function SoundToggle() {
       aria-pressed={isPlaying}
       aria-label={isPlaying ? `${t('soundOff')} (${songTitle})` : `${t('soundOn')} (${songTitle})`}
       title={`${songTitle} • ${isPlaying ? t('soundOff') : t('soundOn')}`}
-      className={`inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-full backdrop-blur-md font-semibold text-xs sm:text-sm border transition-all duration-200 min-h-[44px] min-w-[44px] cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2B705] ${
+      className={`liquid-glass inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-full font-semibold text-xs sm:text-sm transition-all duration-200 min-h-[44px] min-w-[44px] cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2B705] ${
         isPlaying
-          ? 'bg-[#FFF8EC] text-[#B3172F] border-[#B3172F]/40 shadow-md hover:bg-[#F6E9D2]'
-          : 'bg-[#FFF8EC]/90 text-[#3A0D14]/75 border-[#B5532E]/30 shadow-xs hover:bg-[#F6E9D2]'
+          ? 'text-[#B3172F] shadow-lg'
+          : 'text-[#3A0D14]/80'
       }`}
     >
       {isPlaying ? (

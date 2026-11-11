@@ -14,14 +14,14 @@ export default function LanguageToggle() {
     <div
       role="group"
       aria-label="Language selection"
-      className="inline-flex items-center p-1 rounded-full bg-[#FFF8EC]/95 backdrop-blur-md border border-[#B3172F]/20 shadow-md min-h-[44px]"
+      className="liquid-glass inline-flex items-center p-1 rounded-full min-h-[44px]"
     >
       <button
         type="button"
         onClick={() => switchLocale('bn')}
         className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer min-h-[36px] ${
           currentLocale === 'bn'
-            ? 'bg-[#B3172F] text-white shadow-sm'
+            ? 'bg-gradient-to-r from-[#B3172F] to-[#941224] text-white shadow-sm'
             : 'text-[#6F0E20] hover:text-[#B3172F]'
         }`}
         aria-pressed={currentLocale === 'bn'}
@@ -38,7 +38,7 @@ export default function LanguageToggle() {
         onClick={() => switchLocale('en')}
         className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer min-h-[36px] ${
           currentLocale === 'en'
-            ? 'bg-[#B3172F] text-white shadow-sm'
+            ? 'bg-gradient-to-r from-[#B3172F] to-[#941224] text-white shadow-sm'
             : 'text-[#6F0E20] hover:text-[#B3172F]'
         }`}
         aria-pressed={currentLocale === 'en'}
