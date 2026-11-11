@@ -95,7 +95,7 @@ export const event = {
 
   // Nimontron (Family Invitation - Screen 5)
   nimontron: {
-    textBn: "আমাদের পরিবারের পক্ষ থেকে এই আনন্দের অনুষ্ঠানে আপনার উপস্থিতি আমাদের অত্যন্ত গুরুত্বপূর্ণ।",
+    textBn: "আমাদের পরিবারের পক্ষ থেকে এই আনন্দের অনুষ্ঠানে আপনার উপস্থিতি আমাদের কাছে অত্যন্ত গুরুত্বপূর্ণ।",
     textEn: "Your gracious presence will make our special day even more meaningful and memorable.",
     detailedBn: "পরম করুণাময়ের অশেষ কৃপায় আমাদের প্রিয় কন্যা ঝিলিকের শুভ বিবাহ উপলক্ষে আপনাকে ও আপনার পরিবারকে সাদর আমন্ত্রণ জানাচ্ছি।",
     detailedEn: "By the grace of the Almighty, we cordially invite you and your family to the auspicious wedding of our beloved daughter Jhilik.",
