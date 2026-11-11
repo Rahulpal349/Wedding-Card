@@ -28,6 +28,14 @@ export default function WeddingDetails() {
     }
   };
 
+  const scrollToTheDay = () => {
+    if (lenis) {
+      lenis.scrollTo('#the-day', { duration: 1.2 });
+    } else {
+      document.getElementById('the-day')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   useEffect(() => {
     if (prefersReducedMotion) return;
 
@@ -141,15 +149,25 @@ export default function WeddingDetails() {
             </div>
           </div>
 
-          {/* 2. Wedding Ceremony / Homa Fire Card */}
+          {/* 2. Wedding Ceremony / Homa Fire Card (Clickable to The Day Itinerary) */}
           <div
             ref={(el) => {
               itemsRef.current[1] = el;
             }}
-            className="flex items-center gap-5 p-4 rounded-2xl bg-[#F6E9D2]/70 border border-[#B3172F]/15 shadow-sm"
+            onClick={scrollToTheDay}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                scrollToTheDay();
+              }
+            }}
+            aria-label={`${locale === 'bn' ? 'মাঙ্গলিক সূচি দেখুন' : 'View Ceremony Itinerary'}`}
+            className="group flex items-center gap-5 p-4 rounded-2xl bg-[#F6E9D2]/70 hover:bg-[#F6E9D2] active:scale-[0.99] border border-[#B3172F]/15 hover:border-[#B3172F]/35 shadow-sm transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#B3172F]"
           >
             {/* Yajna / Mandap Icon */}
-            <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-[#B3172F]/10 border border-[#B3172F]/30 flex items-center justify-center text-[#B3172F]">
+            <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-[#B3172F]/10 group-hover:bg-[#B3172F]/20 border border-[#B3172F]/30 flex items-center justify-center text-[#B3172F] transition-colors">
               <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 {/* Mandap Base */}
                 <path d="M 4 26 L 28 26 L 24 21 L 8 21 Z" fill="currentColor" fillOpacity="0.15" />
@@ -160,9 +178,14 @@ export default function WeddingDetails() {
             </div>
             {/* Text */}
             <div className="flex-1">
-              <h3 className="font-display-bn text-xl text-[#B3172F] font-bold">
-                {locale === 'bn' ? 'বিবাহ অনুষ্ঠান' : 'Wedding Ceremony'}
-              </h3>
+              <div className="flex items-center justify-between">
+                <h3 className="font-display-bn text-xl text-[#B3172F] font-bold group-hover:underline">
+                  {locale === 'bn' ? 'বিবাহ অনুষ্ঠান' : 'Wedding Ceremony'}
+                </h3>
+                <span className="text-xs text-[#B3172F] font-semibold opacity-75 group-hover:opacity-100 transition-opacity">
+                  {locale === 'bn' ? 'সূচি ↓' : 'Schedule ↓'}
+                </span>
+              </div>
               <p className="text-base font-semibold text-[#3A0D14] mt-0.5">
                 {locale === 'bn' ? event.ceremonyTimeBn : event.ceremonyTime}
               </p>
